@@ -1,7 +1,12 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:chatify/pages/map_page.dart';
 import 'package:chatify/pages/message.dart';
 import 'package:chatify/pages/setting.dart';
+import 'dart:async';
+import 'package:flutter/services.dart';
+import 'package:location/location.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -12,7 +17,7 @@ class HomePage extends StatefulWidget {
 class _NavState extends State<HomePage> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
-    MapPage(),
+    GMap(),
     Message(),
     Setting(),
   ];
@@ -21,6 +26,52 @@ class _NavState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+  @override
+  void initState() {
+    super.initState();
+    checkLocationServicesInDevice();
+  }
+
+  Future<void> checkLocationServicesInDevice() async {
+    Location location = new Location();
+
+    var _serviceEnabled = await location.serviceEnabled();
+
+    if (_serviceEnabled) {
+      var _permissionGranted = await location.hasPermission();
+
+      if (_permissionGranted == PermissionStatus.granted) {
+      } else {
+        _permissionGranted = await location.requestPermission();
+
+        if (_permissionGranted == PermissionStatus.granted) {
+          print('user allowed');
+        } else {
+          SystemNavigator.pop();
+        }
+      }
+    } else {
+      _serviceEnabled = await location.requestService();
+
+      if (_serviceEnabled) {
+        var _permissionGranted = await location.hasPermission();
+
+        if (_permissionGranted == PermissionStatus.granted) {
+          print('user allowed before');
+        } else {
+          _permissionGranted = await location.requestPermission();
+
+          if (_permissionGranted == PermissionStatus.granted) {
+            print('user allowed');
+          } else {
+            SystemNavigator.pop();
+          }
+        }
+      } else {
+        SystemNavigator.pop();
+      }
+    }
   }
 
   @override
