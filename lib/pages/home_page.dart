@@ -1,109 +1,65 @@
-import 'package:chatify/models/conversation.dart';
-import 'package:chatify/pages/map_page.dart';
 import 'package:flutter/material.dart';
-import '../pages/recent_conversations_page.dart';
-import '../pages/map_page.dart';
-class HomePage extends StatelessWidget {
+import 'package:chatify/pages/map_page.dart';
+import 'package:chatify/pages/message.dart';
+import 'package:chatify/pages/setting.dart';
+
+
+class HomePage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MyHomepage(),
-    );
-  }
+  _NavState createState() => _NavState();
 }
 
-class MyHomepage extends StatefulWidget {
-  @override
-  _MyHomepageState createState() => _MyHomepageState();
-}
-
-class _MyHomepageState extends State<MyHomepage> {
-  List<Widget> _pages = [
-    Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'Map',
-          style: TextStyle(fontWeight: FontWeight.w600),
-        ),
-      ),
-    ),
-    DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            'Chat',
-            style: TextStyle(fontWeight: FontWeight.w600),
-          ),
-          bottom: TabBar(
-            tabs: <Widget>[
-              Tab(
-                icon: Icon(Icons.people),
-              ),
-              Tab(
-                icon: Icon(Icons.chat),
-              ),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: <Widget>[
-            RecentConversationsPage(),
-            Conversation(),
-
-          ],
-        ),
-      ),
-    ),
-    Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'Setting',
-          style: TextStyle(fontWeight: FontWeight.w600),
-        ),
-      ),
-    ),
+class _NavState extends State<HomePage> {
+  int _selectedIndex = 0;
+  List<Widget> _widgetOptions = <Widget>[
+    MapPage(),
+    Message(),
+    Setting(),
   ];
-  int _selectedPageIndex = 0;
-  void _x1(int index) {
+
+  void _onItemTap(int index) {
     setState(() {
-      _selectedPageIndex = index;
+      _selectedIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        body: _pages[_selectedPageIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Colors.blue,
-          unselectedItemColor: Colors.grey,
-          currentIndex: _selectedPageIndex,
-          selectedFontSize: 15,
-          unselectedFontSize: 10,
-          type: BottomNavigationBarType.fixed,
-          onTap: _x1,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.location_on),
-              title: Text('Map'),
+    return Scaffold(
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.location_on,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat_bubble),
-              title: Text('Chat'),
+            title: Text(
+              'Map',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              title: Text('Setting'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.chat_bubble,
             ),
-          ],
-        ),
+            title: Text(
+              'Chats',
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.settings,
+            ),
+            title: Text(
+              'Settings',
+            ),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTap,
+        selectedFontSize: 13.0,
+        unselectedFontSize: 13.0,
       ),
     );
   }

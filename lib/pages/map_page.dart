@@ -11,7 +11,7 @@ class _MapPageState extends State<MapPage> {
     return Center(
       child: Container(
         child: Text(
-          "knjfbdbgdv",style: TextStyle(fontSize: 50),
+          "map",style: TextStyle(fontSize: 50),
         ),
       ),
     );

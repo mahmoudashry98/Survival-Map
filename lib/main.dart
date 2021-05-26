@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.light,
-        primaryColor: Color.fromRGBO(42, 117, 188, 1),
+        primaryColor: Color.fromRGBO(42, 117, 188, 1.0),
         accentColor: Colors.white,
         backgroundColor: Colors.white
       ),
@@ -33,14 +33,5 @@ class MyApp extends StatelessWidget {
         "home": (BuildContext _context) => HomePage(),
       },
     );
-  }
-  storeUserLocation() {
-    Location location = new Location();
-    location.onLocationChanged.listen((LocationData currentLocation) {
-      Firestore.instance.collection('Users').add({
-        'location':
-        GeoPoint(currentLocation.latitude, currentLocation.longitude)
-      });
-    });
   }
 }
