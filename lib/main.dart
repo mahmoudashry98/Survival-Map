@@ -1,5 +1,8 @@
+import 'package:chatify/models/contect.dart';
 import 'package:chatify/pages/home_page.dart';
+import 'package:chatify/providers/auth_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
@@ -33,6 +36,13 @@ class MyApp extends StatelessWidget {
         "register": (BuildContext _context) => RegistrationPage(),
         "home": (BuildContext _context) => HomePage(),
       },
+      home:StreamBuilder(stream:FirebaseAuth.instance.onAuthStateChanged , builder: (context,snapshot){
+        if(snapshot.hasData){
+          return ChatPage();
+        }else{
+         return LoginPage();
+        }
+      }),
     );
   }
 }

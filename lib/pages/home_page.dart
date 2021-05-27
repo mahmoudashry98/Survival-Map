@@ -1,15 +1,14 @@
-
-
+import 'package:chatify/pages/recent_conversations_page.dart';
 import 'package:flutter/material.dart';
 import 'package:chatify/pages/map_page.dart';
-import 'package:chatify/pages/message.dart';
+import 'package:chatify/models/contect.dart';
 import 'package:chatify/pages/setting.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 
-
 class HomePage extends StatefulWidget {
+
   @override
   _NavState createState() => _NavState();
 }
@@ -18,8 +17,8 @@ class _NavState extends State<HomePage> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
     GMap(),
-    Message(),
-    Setting(),
+    ChatPage(),
+    SettingPage(),
   ];
 
   void _onItemTap(int index) {
@@ -27,6 +26,7 @@ class _NavState extends State<HomePage> {
       _selectedIndex = index;
     });
   }
+
   @override
   void initState() {
     super.initState();
@@ -95,7 +95,7 @@ class _NavState extends State<HomePage> {
               Icons.chat_bubble,
             ),
             title: Text(
-              'Chats',
+              'Chat',
             ),
           ),
           BottomNavigationBarItem(
@@ -112,6 +112,7 @@ class _NavState extends State<HomePage> {
         selectedFontSize: 13.0,
         unselectedFontSize: 13.0,
       ),
+
     );
   }
 }

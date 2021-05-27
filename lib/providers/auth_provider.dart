@@ -81,4 +81,17 @@ class AuthProvider extends ChangeNotifier {
         }
         notifyListeners();
   }
+  void logoutUser(Future<void> onSuccess()) async {
+    try {
+      await _auth.signOut();
+      user = null;
+      status = AuthStatus.NotAuthenticated;
+      await onSuccess();
+      await NavigationService.instance.navigateToReplacement("login");
+      SnackBarService.instance.showSankBarSuccess("Logged Out Successfully!");
+    } catch (e) {
+      SnackBarService.instance.showSankBarError("Error Logging Out");
+    }
+    notifyListeners();
+  }
 }

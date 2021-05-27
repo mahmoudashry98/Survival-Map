@@ -1,4 +1,12 @@
+import 'package:chatify/models/conversation.dart';
+import 'package:chatify/services/db_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:timeago/timeago.dart'as timeago;
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
+import '../services/db_service.dart';
 
 class RecentConversationsPage extends StatelessWidget {
   // final double _height;
@@ -11,57 +19,70 @@ class RecentConversationsPage extends StatelessWidget {
     return Container(
       // height: _height,
       // width: _width,
-      child: _conversationsListViewWidget(),
+      child: ChangeNotifierProvider<AuthProvider>.value(
+          value: AuthProvider.instance, child: _conversationsListViewWidget()),
     );
   }
 
   Widget _conversationsListViewWidget() {
-    return Container(
-      // height: _height,
-      // width: _width,
-      child: ListView.builder(
-        itemCount: 20,
-        itemBuilder: (_context, _index) {
-          return ListTile(
-            onTap: (){},
-            title: Text("Mahmoud Osama"),
-            subtitle: Text("Subtitle"),
-            leading: Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                image: DecorationImage(
-                  image: NetworkImage("https://i.pravatar.cc/150?img=69"),
-                )
-              ),
-            ),
-            trailing: _listTileTrailingWidgets(),
-          );
-        },
-      ),
+    return Builder(
+      builder: (BuildContext _context) {
+        var _auth = Provider.of<AuthProvider>(_context);
+        return Container(
+            // height: _height,
+            // width: _width,
+            child: StreamBuilder<List<ConversationSnippet>>(
+          stream: DBService.instance.getUserConversations(_auth.user.uid),
+          builder: (_context, _snapshot) {
+            var _data = _snapshot.data;
+            return _snapshot.hasData
+                ? ListView.builder(
+                    itemCount: _data.length,
+                    itemBuilder: (_context, _index) {
+                      return ListTile(
+                        onTap: () {},
+                        title: Text(_data[_index].name),
+                        subtitle: Text(_data[_index].lastMessage ),
+                        leading: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                    _data[_index].image),
+                              )),
+                        ),
+                        trailing: _listTileTrailingWidgets( _data[_index].timestamp),
+                      );
+                    },
+                  )
+                : SpinKitWanderingCubes(
+                    color: Colors.blue,
+                    size: 50.0,
+                  );
+          },
+        ));
+      },
     );
   }
 
-  Widget _listTileTrailingWidgets(){
+  Widget _listTileTrailingWidgets(Timestamp _lastMessageTimestamp) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         Text(
-          "Lastseen",
-          style: TextStyle(
-            fontSize: 15
-          ),
+          timeago.format(_lastMessageTimestamp.toDate() ),
+          style: TextStyle(fontSize: 15),
         ),
         Container(
           height: 12,
           width: 12,
           decoration: BoxDecoration(
-            color: Colors.red,
-            borderRadius: BorderRadius.circular(100)
-          ),
+              color: Colors.red, borderRadius: BorderRadius.circular(100)),
         )
       ],
     );

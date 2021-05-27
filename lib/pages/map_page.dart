@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -55,7 +54,14 @@ class _GMapState extends State<GMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Map'), centerTitle: true,),
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        title: Text('Map',
+          style:TextStyle(
+              color: Colors.white,fontWeight: FontWeight.w600,fontSize: 20
+          ),
+        ),
+        centerTitle: true,),
       body: Stack(
         children: <Widget>[
           GoogleMap(
