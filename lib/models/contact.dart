@@ -1,6 +1,7 @@
-import 'package:chatify/models/conversation.dart';
+
 import 'package:chatify/pages/recent_conversations_page.dart';
 import 'package:chatify/pages/search_page.dart';
+import 'package:chatify/pages/setting.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -31,12 +32,17 @@ class ChatPage extends StatefulWidget {
   _ChatPageState createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatPageState extends State<ChatPage>
+    with SingleTickerProviderStateMixin{
+  double _height;
+  double _width;
+
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 2,
-        child:Scaffold(
+      length: 2,
+      child:Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.blue,
             centerTitle: true,
@@ -57,13 +63,21 @@ class _ChatPageState extends State<ChatPage> {
               ],
             ),
           ),
-          body: TabBarView(
-            children: <Widget>[
-              RecentConversationsPage(),
-              SearchPage(),
-            ],
-          ),
-        ),
+          body: _tabBarPages()
+      ),
     );
   }
+
+  Widget _tabBarPages(){
+    return TabBarView(
+      children: <Widget>[
+        SearchPage(_height, _width),
+        RecentConversationsPage(_height, _width),
+
+
+      ],
+    );
+  }
+
+
 }

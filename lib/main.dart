@@ -1,4 +1,4 @@
-import 'package:chatify/models/contect.dart';
+import 'package:chatify/models/contact.dart';
 import 'package:chatify/pages/home_page.dart';
 import 'package:chatify/providers/auth_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

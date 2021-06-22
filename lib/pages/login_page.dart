@@ -227,22 +227,7 @@ class _LoginPageState extends State<LoginPage> {
                 textAlign: TextAlign.right,
               )),
         ),
-        // Padding(
-        //   padding: EdgeInsets.only(left: 20, right: 20),
-        //   child: RaisedButton(
-        //     onPressed: () {
-        //       if (_formkey.currentState.validate()) {
-        //         Future<String> check = login();
-        //         if (check != null) {
-        //           Navigator.pushReplacement(
-        //               context,
-        //               MaterialPageRoute(
-        //                   builder: (BuildContext context) => HomePage()));
-        //         }
-        //       }
-        //     },
-        //   ),
-        // )
+
       ],
     );
   }

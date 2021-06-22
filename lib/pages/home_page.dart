@@ -1,12 +1,12 @@
-import 'package:chatify/pages/recent_conversations_page.dart';
+import './recent_conversations_page.dart';
 import 'package:flutter/material.dart';
 import 'package:chatify/pages/map_page.dart';
-import 'package:chatify/models/contect.dart';
+import 'package:chatify/models/contact.dart';
 import 'package:chatify/pages/setting.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
-
+import '../pages/search_page.dart';
 class HomePage extends StatefulWidget {
 
   @override

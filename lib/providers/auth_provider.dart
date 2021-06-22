@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/snackbar_service.dart';
 import '../services/navigation_service.dart';
+import '../services/db_service.dart';
 
 enum AuthStatus {
   NotAuthenticated,
@@ -24,9 +25,10 @@ class AuthProvider extends ChangeNotifier {
     _checkCurrentUserIsAuthenticated();
   }
 
-  void _autoLogin(){
+  void _autoLogin()async{
     if(user != null){
-      NavigationService.instance.navigateToReplacement("home");
+      await DBService.instance.updateUserLastSeenTime(user.uid);
+      return NavigationService.instance.navigateToReplacement("home");
     }
   }
 
@@ -34,7 +36,7 @@ class AuthProvider extends ChangeNotifier {
     user = await _auth.currentUser();
     if(user != null){
       notifyListeners();
-      _autoLogin();
+      await _autoLogin();
     }
 
   }
@@ -49,7 +51,7 @@ class AuthProvider extends ChangeNotifier {
       user = _result.user;
       status = AuthStatus.Authenticated;
       SnackBarService.instance.showSankBarError("Welcome, ${user.email}");
-      //Update LastSeen Time
+      await DBService.instance.updateUserLastSeenTime(user.uid);
       NavigationService.instance.navigateToReplacement("home");
     } catch (e) {
       status = AuthStatus.Error;
@@ -68,7 +70,7 @@ class AuthProvider extends ChangeNotifier {
           user = _result.user;
           status = AuthStatus.Authenticated;
           SnackBarService.instance.showSankBarError("Welcome, ${user.email}");
-          //Update LastSeen Time
+          await DBService.instance.updateUserLastSeenTime(user.uid);
           await onSuccess(user.uid);
           NavigationService.instance.goBack();
           NavigationService.instance.navigateToReplacement("home");
