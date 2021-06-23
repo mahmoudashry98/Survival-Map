@@ -1,4 +1,5 @@
 import 'package:chatify/providers/auth_provider.dart';
+import 'package:chatify/providers/auth_provider.dart';
 import 'package:chatify/services/snackbar_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

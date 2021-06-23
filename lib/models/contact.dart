@@ -71,7 +71,7 @@ class _ChatPageState extends State<ChatPage>
   Widget _tabBarPages(){
     return TabBarView(
       children: <Widget>[
-        SearchPage(_height, _width),
+        SearchPage(),
         RecentConversationsPage(_height, _width),
 
 

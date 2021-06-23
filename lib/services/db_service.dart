@@ -13,6 +13,7 @@ class DBService {
   }
 
   String _userCollection = "Users";
+  String _doctorCollection = "Doctors";
   String _conversationsCollection = "Conversations";
 
   Future<void> createUserInDB(
@@ -108,9 +109,9 @@ class DBService {
     });
   }
 
-  Stream<List<Contact>> getUsersInDB(String _searchName) {
+  Stream<List<Contact>> getDoctorsInDB(String _searchName) {
     var _ref = _db
-        .collection(_userCollection);
+        .collection(_doctorCollection);
         // .where("name", isGreaterThanOrEqualTo: _searchName)
         // .where("name", isLessThan: _searchName + 'z');
     return _ref.getDocuments().asStream().map((_snapshot) {
