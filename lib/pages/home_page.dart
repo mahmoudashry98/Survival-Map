@@ -33,15 +33,21 @@ class _NavState extends State<HomePage> {
     checkLocationServicesInDevice();
   }
 
+
   Future<void> checkLocationServicesInDevice() async {
     Location location = new Location();
 
-    var _serviceEnabled = await location.serviceEnabled();
+   var _serviceEnabled = await location.serviceEnabled();
 
     if (_serviceEnabled) {
-      var _permissionGranted = await location.hasPermission();
+     var  _permissionGranted = await location.hasPermission();
 
       if (_permissionGranted == PermissionStatus.granted) {
+        // _location = await location.getLocation();
+
+        // print(_location.latitude.toString() + " " + _location.longitude.toString());
+
+
       } else {
         _permissionGranted = await location.requestPermission();
 
@@ -52,10 +58,10 @@ class _NavState extends State<HomePage> {
         }
       }
     } else {
-      _serviceEnabled = await location.requestService();
+     var _serviceEnabled = await location.requestService();
 
       if (_serviceEnabled) {
-        var _permissionGranted = await location.hasPermission();
+       var _permissionGranted = await location.hasPermission();
 
         if (_permissionGranted == PermissionStatus.granted) {
           print('user allowed before');
