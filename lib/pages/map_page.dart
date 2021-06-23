@@ -27,7 +27,7 @@ class _GMapState extends State<GMap> {
     _setCircles();
     storeUserLocation();
 
-    Firestore.instance.collection('users').snapshots().listen((event) {
+    Firestore.instance.collection('Users').snapshots().listen((event) {
       event.documentChanges.forEach((change) {
         setState(() {
           markers.add(Marker(
