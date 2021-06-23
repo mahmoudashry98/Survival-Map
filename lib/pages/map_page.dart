@@ -1,8 +1,12 @@
 import 'dart:async';
 import 'dart:collection';
+import 'package:chatify/blocs/application_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 
 class GMap extends StatefulWidget {
   GMap({Key key}) : super(key: key);
@@ -21,8 +25,9 @@ class _GMapState extends State<GMap> {
   void initState() {
     super.initState();
     _setCircles();
+    storeUserLocation();
 
-    Firestore.instance.collection('users').snapshots().listen((event) {
+    Firestore.instance.collection('Users').snapshots().listen((event) {
       event.documentChanges.forEach((change) {
         setState(() {
           markers.add(Marker(
@@ -48,62 +53,52 @@ class _GMapState extends State<GMap> {
   }
 
   GoogleMapController mapController;
-
-  String searchAddr;
+  LatLng currentLocation;
 
   @override
   Widget build(BuildContext context) {
+     final applicationBloc = Provider.of<ApplicationBloc>(context);
+
+    void onMapCreated(controller) {
+      setState(() {
+        mapController = controller;
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text('Map',
-          style:TextStyle(
-              color: Colors.white,fontWeight: FontWeight.w600,fontSize: 20
-          ),
+        title: Text(
+          'Map',
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 20),
         ),
-        centerTitle: true,),
-      body: Stack(
+        centerTitle: true,
+      ),
+      body: (applicationBloc.currentLocation == null)
+          ? Center(
+        child: CircularProgressIndicator(),
+      ): Stack(
         children: <Widget>[
           GoogleMap(
             initialCameraPosition: CameraPosition(
-              target: LatLng(37.77483, -122.41942),
+              target: LatLng(
+                  applicationBloc.currentLocation.latitude,
+                  applicationBloc.currentLocation.longitude),
               zoom: 12,
             ),
             circles: _circles,
             myLocationEnabled: true,
+            scrollGesturesEnabled: true,
+            zoomGesturesEnabled: true,
             myLocationButtonEnabled: true,
+            mapType: MapType.normal,
+            mapToolbarEnabled: true,
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
             },
             markers: markers.toSet(),
           ),
-          Positioned(
-            top: 30.0,
-            right: 15.0,
-            left: 15.0,
-            child: Container(
-              height: 50.0,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.white),
-              child: TextField(
-                decoration: InputDecoration(
-                    hintText: 'Enter Address',
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
-                    suffixIcon: IconButton(
-                        icon: Icon(Icons.search),
-                        onPressed: searchandNavigate,
-                        iconSize: 30.0)),
-                onChanged: (val) {
-                  setState(() {
-                    searchAddr = val;
-                  });
-                },
-              ),
-            ),
-          )
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -116,21 +111,20 @@ class _GMapState extends State<GMap> {
       ),
     );
   }
+}
 
-  searchandNavigate() {
-    // Geolocator().placemarkFromAddress(searchAddr).then((result) {
-    //   mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-    //       target:
-    //       LatLng(result[0].position.latitude, result[0].position.longitude),
-    //       zoom: 10.0)));
-    // });
-  }
+storeUserLocation() {
+  Location location = new Location();
 
-  void onMapCreated(controller) {
-    setState(() {
-      mapController = controller;
+  location.onLocationChanged.listen((LocationData currentLocation) {
+    Firestore.instance
+        .collection('Users')
+        .document('2ZeiLAmfho8ABJOCUkSl')
+        .setData({
+      'name': 'Crona',
+      'location': GeoPoint(currentLocation.latitude, currentLocation.longitude)
     });
-  }
+  });
 }
 
 void dialog(BuildContext context) {
