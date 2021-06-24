@@ -38,16 +38,20 @@ class _SearchPageState extends State<SearchPage> {
   Widget _searchPageUI() {
     return Builder(builder: (BuildContext _context) {
       _auth = Provider.of<AuthProvider>(_context);
-      return Column(
+      return SingleChildScrollView(
+          child:Column(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+
           _userSearchField(),
           _usersListView(),
         ],
+      )
       );
-    });
+    }
+    );
   }
 
   Widget _userSearchField() {
@@ -85,7 +89,7 @@ class _SearchPageState extends State<SearchPage> {
                   children: <Widget>[
                     SingleChildScrollView(
                       child: Container(
-                          height: _deviceHeight * 0.30,
+                          height: _deviceHeight * 0.60,
                           width: _deviceWidth,
                           padding: EdgeInsets.all(10.0),
                           child: ListView.builder(

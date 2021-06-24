@@ -8,12 +8,12 @@ import '../services/media_service.dart';
 import '../providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
-class RegistrationPage extends StatefulWidget {
+class RegistrationDoctorPage extends StatefulWidget {
   @override
-  _RegistrationPageState createState() => _RegistrationPageState();
+  _RegistrationDoctorPageState createState() => _RegistrationDoctorPageState();
 }
 
-class _RegistrationPageState extends State<RegistrationPage> {
+class _RegistrationDoctorPageState extends State<RegistrationDoctorPage> {
   bool passwordVisible = true;
   double _deviceHeight;
   double _deviceWidth;
@@ -27,7 +27,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   TextEditingController password = TextEditingController();
   TextEditingController _confirmpassword = TextEditingController();
-  _RegistrationPageState() {
+  _RegistrationDoctorPageState() {
     _formkey = GlobalKey<FormState>();
   }
   @override
@@ -43,9 +43,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
               Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                  image: AssetImage("lib/ima/SE4.jpeg"),
-                  fit: BoxFit.fill,
-                )),
+                      image: AssetImage("lib/ima/SE4.jpeg"),
+                      fit: BoxFit.fill,
+                    )),
                 child: Align(
                   alignment: Alignment.center,
                   child: ChangeNotifierProvider<AuthProvider>.value(
@@ -76,6 +76,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               _headingWidget(),
               _inputForm(),
               _registrationButton(),
+              // _backToLoginPageButton(),
             ],
           ),
         );
@@ -120,14 +121,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
           children: <Widget>[
             Container(
                 child: Text(
-              "Register..",
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w900,
-                color: Colors.blue,
-              ),
-            )),
-             _imageSelectorWidget(),
+                  "Register..",
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.blue,
+                  ),
+                )),
+            _imageSelectorWidget(),
             _nameTextField(),
             _emailTextField(),
             _passwordTextField(),
@@ -160,7 +161,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               image: _image != null
                   ? FileImage(_image)
                   : NetworkImage(
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWo3luud5KPZknLR5zdUUwzvYBztWgTxrkbA&usqp=CAU"),
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWo3luud5KPZknLR5zdUUwzvYBztWgTxrkbA&usqp=CAU"),
             ),
           ),
         ),
@@ -328,35 +329,35 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return _auth.status != AuthStatus.Authenticating
         ? Container(
       padding: EdgeInsets.symmetric(horizontal: 90),
-            height: _deviceHeight * 0.06,
-            width: _deviceWidth,
-            child: MaterialButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              onPressed: () {
-                if (_formkey.currentState.validate() && _image != null
-                ) {
-                  _auth.registerUserWithEmailAndPassword(_email, _password,
-                      (String _uid) async {
-                    var _result = await CloudStorageService.instance
-                        .uploadUserImage(_uid, _image);
-                    var _imageURL = await _result.ref.getDownloadURL();
-                    await DBService.instance
-                        .createUserInDB(_uid, _name, _email, _imageURL);
-                  });
-                }
-              },
-              color: Colors.white,
-              child: Text(
-                "Sign Up",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700,color: Colors.blue),
-              ),
-            ),
-          )
+      height: _deviceHeight * 0.06,
+      width: _deviceWidth,
+      child: MaterialButton(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20)),
+        onPressed: () {
+          if (_formkey.currentState.validate() && _image != null
+          ) {
+            _auth.registerDoctorWithEmailAndPassword(_email, _password,
+                    (String _uid) async {
+                  var _result = await CloudStorageService.instance
+                      .uploadDoctorImage(_uid, _image);
+                  var _imageURL = await _result.ref.getDownloadURL();
+                  await DBService.instance
+                      .createDoctorInDB(_uid, _name, _email, _imageURL);
+                });
+          }
+        },
+        color: Colors.white,
+        child: Text(
+          "Sign Up",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700,color: Colors.blue),
+        ),
+      ),
+    )
         : Align(
-            alignment: Alignment.center,
-            child: CircularProgressIndicator(),
-          );
+      alignment: Alignment.center,
+      child: CircularProgressIndicator(),
+    );
   }
 
 }

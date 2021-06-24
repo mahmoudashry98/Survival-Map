@@ -1,6 +1,8 @@
 import 'package:chatify/models/contact.dart';
 import 'package:chatify/pages/home_page.dart';
+import 'package:chatify/pages/home_page_doctor.dart';
 import 'package:chatify/providers/auth_provider.dart';
+import 'package:chatify/services/db_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider(
         create: (context) => ApplicationBloc(),
         child: MaterialApp(
@@ -34,6 +37,7 @@ class MyApp extends StatelessWidget {
           initialRoute: "login",
           routes: {
             "login": (BuildContext _context) => LoginPage(),
+            "sign in": (BuildContext _context) => HomePageDoctor(),
             "register": (BuildContext _context) => RegistrationPage(),
             "home": (BuildContext _context) => HomePage(),
           },

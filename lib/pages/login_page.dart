@@ -27,22 +27,29 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    _deviceHeight = MediaQuery.of(context).size.height;
-    _deviceWidht = MediaQuery.of(context).size.width;
-
+    _deviceHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
+    _deviceWidht = MediaQuery
+        .of(context)
+        .size
+        .width;
 
 
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme
+          .of(context)
+          .backgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
-                image: AssetImage("lib/ima/SC4.jpeg"),
-                fit: BoxFit.fill,
-              )),
+                    image: AssetImage("lib/ima/SC4.jpeg"),
+                    fit: BoxFit.fill,
+                  )),
               child: Align(
                 alignment: Alignment.center,
                 child: ChangeNotifierProvider<AuthProvider>.value(
@@ -121,13 +128,13 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             Container(
                 child: Text(
-              "Login..",
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w900,
-                color: Colors.blue,
-              ),
-            )),
+                  "Login..",
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.blue,
+                  ),
+                )),
             _emailTextField(),
             _PasswordTextField(),
           ],
@@ -256,32 +263,32 @@ class _LoginPageState extends State<LoginPage> {
   Widget _loginButton() {
     return _auth.status == AuthStatus.Authenticating
         ? Align(
-            alignment: Alignment.center,
-            child: CircularProgressIndicator(),
-          )
+      alignment: Alignment.center,
+      child: CircularProgressIndicator(),
+    )
         : Container(
-            padding: EdgeInsets.symmetric(horizontal: 90),
-            height: _deviceHeight * 0.06,
-            width: _deviceWidht,
-            child: MaterialButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              onPressed: () {
-                if (_formkey.currentState.validate()) {
-                  _auth.loginUserWithEmailAndPassword(_email, _password);
-                  // login user
-                }
-              },
-              color: Colors.white,
-              child: Text(
-                "Sign In"
+        padding: EdgeInsets.symmetric(horizontal: 90),
+        height: _deviceHeight * 0.06,
+        width: _deviceWidht,
+        child: MaterialButton(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)),
+          onPressed: () {
+            if (_formkey.currentState.validate()) {
+              _auth.loginUserWithEmailAndPassword(_email, _password);
+              // login user
+            }
+          },
+          color: Colors.white,
+          child: Text(
+            "Sign In"
                 "",
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.blue),
-              ),
-            ));
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: Colors.blue),
+          ),
+        ));
   }
 
   Widget _registerButton() {
@@ -318,5 +325,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<String> login() {}
 }

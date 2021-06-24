@@ -30,8 +30,28 @@ class DBService {
     }
   }
 
+  Future<void> createDoctorInDB(
+      String _uid, String _name, String _email, String _imageURL) async {
+    try {
+      return await _db.collection(_doctorCollection).document(_uid).setData({
+        "name": _name,
+        "email": _email,
+        "image": _imageURL,
+        "lastSeen": DateTime.now().toUtc(),
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+
   Future<void> updateUserLastSeenTime(String _userID) {
     var _ref = _db.collection(_userCollection).document(_userID);
+    return _ref.updateData({"lastSeen": Timestamp.now()});
+  }
+
+  Future<void> updateDoctorLastSeenTime(String _userID) {
+    var _ref = _db.collection(_doctorCollection).document(_userID);
     return _ref.updateData({"lastSeen": Timestamp.now()});
   }
 
@@ -62,7 +82,7 @@ class DBService {
   //   });
   // }
 
-  Future<void> createOrGetConversartion(String _currentID, String _recepientID,
+  Future<void> createOrGetConversation(String _currentID, String _recepientID,
       Future<void> _onSuccess(String _conversationID)) async {
     var _ref = _db.collection(_conversationsCollection);
     var _userConversationRef = _db
@@ -97,6 +117,13 @@ class DBService {
     });
   }
 
+  Stream<Contact> getDoctorData(String _userID) {
+    var _ref = _db.collection(_doctorCollection).document(_userID);
+    return _ref.get().asStream().map((_snapshot) {
+      return Contact.fromFirestore(_snapshot);
+    });
+  }
+
   Stream<List<ConversationSnippet>> getUserConversations(String _userID) {
     var _ref = _db
         .collection(_userCollection)
@@ -105,6 +132,18 @@ class DBService {
     return _ref.snapshots().map((_snapshot) {
       return _snapshot.documents.map((_doc) {
         return ConversationSnippet.fromFirestore(_doc);
+      }).toList();
+    });
+  }
+
+  Stream<List<Contact>> getUsersInDB(String _searchName) {
+    var _ref = _db
+        .collection(_userCollection);
+        // .where("name", isGreaterThanOrEqualTo: _searchName)
+        // .where("name", isLessThan: _searchName + 'z');
+    return _ref.getDocuments().asStream().map((_snapshot) {
+      return _snapshot.documents.map((_doc) {
+        return Contact.fromFirestore(_doc);
       }).toList();
     });
   }

@@ -1,3 +1,5 @@
+import 'package:chatify/pages/home_page_doctor.dart';
+import 'package:chatify/pages/registration_doctor_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
@@ -30,7 +32,6 @@ class _LoginDoctorPageState extends State<LoginDoctorPage> {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidht = MediaQuery.of(context).size.width;
 
-
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: SingleChildScrollView(
@@ -39,9 +40,9 @@ class _LoginDoctorPageState extends State<LoginDoctorPage> {
             Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("lib/ima/SC4.jpeg"),
-                    fit: BoxFit.fill,
-                  )),
+                image: AssetImage("lib/ima/SC4.jpeg"),
+                fit: BoxFit.fill,
+              )),
               child: Align(
                 alignment: Alignment.center,
                 child: ChangeNotifierProvider<AuthProvider>.value(
@@ -72,6 +73,7 @@ class _LoginDoctorPageState extends State<LoginDoctorPage> {
             children: <Widget>[
               _headingWidget(),
               _inputForm(),
+              _registerButton(),
               _loginButton(),
             ],
           ),
@@ -82,9 +84,9 @@ class _LoginDoctorPageState extends State<LoginDoctorPage> {
 
   Widget _headingWidget() {
     return Container(
-      height: _deviceHeight * 0.20,
+      height: _deviceHeight * 0.15,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
@@ -105,7 +107,7 @@ class _LoginDoctorPageState extends State<LoginDoctorPage> {
 
   Widget _inputForm() {
     return Container(
-      height: _deviceHeight * 0.43,
+      height: _deviceHeight * 0.25,
       width: _deviceWidht * 0.80,
       child: Form(
         key: _formkey,
@@ -114,18 +116,18 @@ class _LoginDoctorPageState extends State<LoginDoctorPage> {
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
                 child: Text(
-                  "Login..",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.blue,
-                  ),
-                )),
+              "Login..",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w900,
+                color: Colors.blue,
+              ),
+            )),
             _emailTextField(),
             _PasswordTextField(),
           ],
@@ -136,7 +138,6 @@ class _LoginDoctorPageState extends State<LoginDoctorPage> {
 
   Widget _emailTextField() {
     return Container(
-
       child: Card(
           margin: EdgeInsets.all(18),
           color: Color.fromRGBO(208, 211, 212, 1),
@@ -229,25 +230,7 @@ class _LoginDoctorPageState extends State<LoginDoctorPage> {
                 textAlign: TextAlign.end,
               )),
         ),
-        Container(
-          padding: EdgeInsets.only(top: 5),
-          width: _deviceWidht * 0.5,
-          child: InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => LoginDoctorPage()));
-              },
-              child: Text(
-                "I’m Doctor ",
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400),
-                textAlign: TextAlign.end,
-              )),
-        ),
+
       ],
     );
   }
@@ -255,35 +238,68 @@ class _LoginDoctorPageState extends State<LoginDoctorPage> {
   Widget _loginButton() {
     return _auth.status == AuthStatus.Authenticating
         ? Align(
-      alignment: Alignment.center,
-      child: CircularProgressIndicator(),
-    )
+            alignment: Alignment.center,
+            child: CircularProgressIndicator(),
+          )
         : Container(
-        padding: EdgeInsets.symmetric(horizontal: 90),
-        height: _deviceHeight * 0.06,
-        width: _deviceWidht,
-        child: MaterialButton(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20)),
-          onPressed: () {
-            if (_formkey.currentState.validate()) {
-              _auth.loginDoctorWithEmailAndPassword(_email, _password);
-              // login user
-            }
-          },
-          color: Colors.white,
-          child: Text(
-            "Sign In"
+            padding: EdgeInsets.symmetric(horizontal: 90),
+            height: _deviceHeight * 0.06,
+            width: _deviceWidht,
+            child: MaterialButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              onPressed: () {
+                if (_formkey.currentState.validate()) {
+                  _auth.loginUserWithEmailAndPassword(_email, _password);
+                  // login user
+                }
+              },
+              color: Colors.white,
+              child: Text(
+                "Sign In"
                 "",
-            style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Colors.blue),
-          ),
-        ));
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.blue),
+              ),
+            ));
   }
 
-
-
-  Future<String> login() {}
+  Widget _registerButton() {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => RegistrationDoctorPage()));
+      },
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 58),
+            height: _deviceHeight * 0.05,
+            child: Text(
+              "You Don’t Have An Account ?",
+              style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.blue),
+            ),
+          ),
+          Container(
+            height: _deviceHeight * 0.15,
+            child: Text(
+              "REGISTER",
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.blue),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
