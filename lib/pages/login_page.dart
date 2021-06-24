@@ -30,6 +30,8 @@ class _LoginPageState extends State<LoginPage> {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidht = MediaQuery.of(context).size.width;
 
+
+
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: SingleChildScrollView(
@@ -236,7 +238,7 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => LoginDoctor()));
+                        builder: (BuildContext context) => LoginDoctorPage()));
               },
               child: Text(
                 "I’m Doctor ",

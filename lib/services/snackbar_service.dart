@@ -20,7 +20,7 @@ class SnackBarService {
           _message,
           style: TextStyle(color: Colors.white, fontSize: 15),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.red,
       ),
     );
   }
@@ -33,7 +33,7 @@ class SnackBarService {
           _message,
           style: TextStyle(color: Colors.white, fontSize: 15),
         ),
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.green,
 
       ),
     );

@@ -15,6 +15,7 @@ enum AuthStatus {
 
 class AuthProvider extends ChangeNotifier {
   FirebaseUser user;
+  FirebaseUser doctor;
   AuthStatus status;
   FirebaseAuth _auth;
 
@@ -60,7 +61,21 @@ class AuthProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-
+  void loginDoctorWithEmailAndPassword(String _email, String _password)async{
+    status = AuthStatus.Authenticating;
+    notifyListeners();
+    try{
+      AuthResult _result= await _auth.signInWithEmailAndPassword(email: _email, password: _password);
+      doctor = _result.user;
+      status = AuthStatus.Authenticated;
+      SnackBarService.instance.showSankBarSuccess("Welcome, ${doctor.displayName}");
+      //Navigate To Homepage
+    } catch (e){
+      status = AuthStatus.Error;
+      SnackBarService.instance.showSankBarError("Error Authenticating");
+    }
+    notifyListeners();
+  }
   void registerUserWithEmailAndPassword(String _email , String _password,
       Future<void> onSuccess(String _uid))async{
         status = AuthStatus.Authenticating;
