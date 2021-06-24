@@ -75,6 +75,7 @@ class _NavState extends State<HomePage> {
       } else {
         SystemNavigator.pop();
       }
+
     }
   }
 

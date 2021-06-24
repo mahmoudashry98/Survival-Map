@@ -19,15 +19,24 @@ class _GMapState extends State<GMap> {
   Set<Circle> _circles = HashSet<Circle>();
   Completer<GoogleMapController> _controller = Completer();
 
+  bool infected = false;
+
   List<Marker> markers = [];
 
   @override
   void initState() {
     super.initState();
     _setCircles();
-    storeUserLocation();
 
-    Firestore.instance.collection('Users').snapshots().listen((event) {
+    Timer.periodic(new Duration(seconds: 15), (timer) async {
+      print('hiiiiiiii');
+      if (infected == true) {
+        print('hello');
+        await storeUserLocation();
+      }
+    });
+
+    Firestore.instance.collection('Users_Location').snapshots().listen((event) {
       event.documentChanges.forEach((change) {
         setState(() {
           markers.add(Marker(
@@ -38,6 +47,16 @@ class _GMapState extends State<GMap> {
                   change.document.data['location'].longitude)));
         });
       });
+    });
+  }
+
+  storeUserLocation() async {
+    Location location = new Location();
+    var currentLocation = await location.getLocation();
+
+    Firestore.instance.collection('Users_Location').add({
+      'name': 'Corona',
+      'location': GeoPoint(currentLocation.latitude, currentLocation.longitude)
     });
   }
 
@@ -57,12 +76,54 @@ class _GMapState extends State<GMap> {
 
   @override
   Widget build(BuildContext context) {
-     final applicationBloc = Provider.of<ApplicationBloc>(context);
+    final applicationBloc = Provider.of<ApplicationBloc>(context);
 
     void onMapCreated(controller) {
       setState(() {
         mapController = controller;
       });
+    }
+
+    void dialog(BuildContext context) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)),
+            title: Text("Do you infected Covid-19 ?"),
+            content: Text(
+                "If you click on yes, we will follow up for you and display the last five days you were with them."),
+            actions: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: MaterialButton(
+                  shape: StadiumBorder(),
+                  minWidth: 100,
+                  color: Colors.blue,
+                  child: new Text("Yes"),
+                  onPressed: () {
+                    setState(() {
+                      infected = true;
+                    });
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+              MaterialButton(
+                shape: StadiumBorder(),
+                minWidth: 100,
+                color: Colors.blueAccent,
+                child: new Text("No"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
 
     return Scaffold(
@@ -77,91 +138,50 @@ class _GMapState extends State<GMap> {
       ),
       body: (applicationBloc.currentLocation == null)
           ? Center(
-        child: CircularProgressIndicator(),
-      ): Stack(
-        children: <Widget>[
-          GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target: LatLng(
-                  applicationBloc.currentLocation.latitude,
-                  applicationBloc.currentLocation.longitude),
-              zoom: 12,
+              child: CircularProgressIndicator(),
+            )
+          : Stack(
+              children: <Widget>[
+                GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(applicationBloc.currentLocation.latitude,
+                        applicationBloc.currentLocation.longitude),
+                    zoom: 12,
+                  ),
+                  circles: _circles,
+                  myLocationEnabled: true,
+                  scrollGesturesEnabled: true,
+                  zoomGesturesEnabled: true,
+                  myLocationButtonEnabled: true,
+                  mapType: MapType.normal,
+                  mapToolbarEnabled: true,
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                  },
+                  markers: markers.toSet(),
+                ),
+              ],
             ),
-            circles: _circles,
-            myLocationEnabled: true,
-            scrollGesturesEnabled: true,
-            zoomGesturesEnabled: true,
-            myLocationButtonEnabled: true,
-            mapType: MapType.normal,
-            mapToolbarEnabled: true,
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-            markers: markers.toSet(),
-          ),
-        ],
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Increment',
-        child: Icon(Icons.coronavirus_sharp),
-        onPressed: () {
-          dialog(context);
-        },
-      ),
-    );
-  }
-}
-
-storeUserLocation() {
-  Location location = new Location();
-
-  location.onLocationChanged.listen((LocationData currentLocation) {
-    Firestore.instance
-        .collection('Users')
-        .document('2ZeiLAmfho8ABJOCUkSl')
-        .setData({
-      'name': 'Crona',
-      'location': GeoPoint(currentLocation.latitude, currentLocation.longitude)
-    });
-  });
-}
-
-void dialog(BuildContext context) {
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-        title: Text("Do you infected Covid-19 ?"),
-        content: Text(
-            "If you click on yes, we will follow up for you and display the last five days you were with them."),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: MaterialButton(
+      floatingActionButton: (infected == false)
+          ? FloatingActionButton(
+              tooltip: 'Increment',
+              child: Icon(Icons.coronavirus_sharp),
+              onPressed: () {
+                dialog(context);
+              },
+            )
+          : MaterialButton(
               shape: StadiumBorder(),
               minWidth: 100,
               color: Colors.blue,
-              child: new Text("Yes"),
+              child: new Text("stop"),
               onPressed: () {
-                Navigator.of(context).pop();
+                setState(() {
+                  infected = false;
+                });
               },
             ),
-          ),
-          MaterialButton(
-            shape: StadiumBorder(),
-            minWidth: 100,
-            color: Colors.blueAccent,
-            child: new Text("No"),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
+    );
+  }
 }
