@@ -52,7 +52,7 @@ dev_dependencies:
 
 flutter_icons:
   android: true
-  image_path: "lib/ima/logoo.jpg"
+  image_path: "lib/ima/applogo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

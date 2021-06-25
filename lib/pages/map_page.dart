@@ -94,7 +94,7 @@ class _GMapState extends State<GMap> {
                 borderRadius: BorderRadius.circular(20.0)),
             title: Text("Do you infected Covid-19 ?"),
             content: Text(
-                "If you click on yes, we will follow up for you and display the last five days you were with them."),
+                "If you click Yes, we will follow you and show your location on a map everywhere you visit. And you can stop tracking you if you click stop."),
             actions: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(right: 10.0),
@@ -167,6 +167,9 @@ class _GMapState extends State<GMap> {
           ? FloatingActionButton(
               tooltip: 'Increment',
               child: Icon(Icons.coronavirus_sharp),
+              backgroundColor: Colors.blue,
+              splashColor: Colors.white,
+              foregroundColor: Colors.white,
               onPressed: () {
                 dialog(context);
               },
@@ -174,8 +177,9 @@ class _GMapState extends State<GMap> {
           : MaterialButton(
               shape: StadiumBorder(),
               minWidth: 100,
-              color: Colors.blue,
+              color: Colors.red,
               child: new Text("stop"),
+              textColor: Colors.white,
               onPressed: () {
                 setState(() {
                   infected = false;
