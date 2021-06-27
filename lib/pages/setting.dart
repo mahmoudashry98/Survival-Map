@@ -4,6 +4,7 @@ import 'package:chatify/pages/profile/components/profile_menu.dart';
 import 'package:chatify/services/navigation_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingPage extends StatelessWidget {
   @override
@@ -70,7 +71,9 @@ class SettingPage extends StatelessWidget {
               ProfileMenu(
                 text: "Help Center",
                 icon: "assets/icons/Question mark.svg",
-                press: () {},
+                press: () {
+                  launch('https://www.who.int/ar/emergencies/diseases/novel-coronavirus-2019/advice-for-public');
+                },
               ),
               ProfileMenu(
                 text: "Log Out",
