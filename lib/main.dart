@@ -1,6 +1,7 @@
 import 'package:chatify/models/contact.dart';
 import 'package:chatify/pages/home_page.dart';
 import 'package:chatify/pages/home_page_doctor.dart';
+import 'package:chatify/pages/my_account.dart';
 import 'package:chatify/providers/auth_provider.dart';
 import 'package:chatify/services/db_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,13 +26,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     super.initState();
     checkLocationServicesInDevice();
   }
-
 
   Future<void> checkLocationServicesInDevice() async {
     Location location = new Location();
@@ -39,13 +38,12 @@ class _MyAppState extends State<MyApp> {
     var _serviceEnabled = await location.serviceEnabled();
 
     if (_serviceEnabled) {
-      var  _permissionGranted = await location.hasPermission();
+      var _permissionGranted = await location.hasPermission();
 
       if (_permissionGranted == PermissionStatus.granted) {
         // _location = await location.getLocation();
 
         // print(_location.latitude.toString() + " " + _location.longitude.toString());
-
 
       } else {
         _permissionGranted = await location.requestPermission();
@@ -76,13 +74,11 @@ class _MyAppState extends State<MyApp> {
       } else {
         SystemNavigator.pop();
       }
-
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider(
         create: (context) => ApplicationBloc(),
         child: MaterialApp(
@@ -100,6 +96,7 @@ class _MyAppState extends State<MyApp> {
             "sign in": (BuildContext _context) => HomePageDoctor(),
             "register": (BuildContext _context) => RegistrationPage(),
             "home": (BuildContext _context) => HomePage(),
+            "MyAccount": (BuildContext _context) => MyAccount(),
           },
           home: StreamBuilder(
               stream: FirebaseAuth.instance.onAuthStateChanged,
