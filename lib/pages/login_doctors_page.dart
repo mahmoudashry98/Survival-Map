@@ -259,7 +259,7 @@ class _LoginDoctorPageState extends State<LoginDoctorPage> {
                 "Sign In"
                 "",
                 style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 17,
                     fontWeight: FontWeight.w700,
                     color: Colors.blue),
               ),

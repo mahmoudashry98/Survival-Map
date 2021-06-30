@@ -27,9 +27,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   TextEditingController password = TextEditingController();
   TextEditingController _confirmpassword = TextEditingController();
+
   _RegistrationPageState() {
     _formkey = GlobalKey<FormState>();
   }
+
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
@@ -93,11 +95,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
         children: <Widget>[
           Text(
             "      Welcome,",
-            style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700,color: Colors.white),
+            style: TextStyle(
+                fontSize: 35, fontWeight: FontWeight.w700, color: Colors.white),
           ),
           Text(
             "Let’s Create An Account!",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500,color: Colors.white),
+            style: TextStyle(
+                fontSize: 25, fontWeight: FontWeight.w500, color: Colors.white),
           ),
         ],
       ),
@@ -107,7 +111,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget _inputForm() {
     return Container(
       height: _deviceHeight * 0.55,
-
       child: Form(
         key: _formkey,
         onChanged: () {
@@ -127,7 +130,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 color: Colors.blue,
               ),
             )),
-             _imageSelectorWidget(),
+            _imageSelectorWidget(),
             _nameTextField(),
             _emailTextField(),
             _passwordTextField(),
@@ -314,7 +317,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   });
                 },
               ),
-
               prefixIcon: Icon(
                 Icons.lock,
                 color: Colors.black,
@@ -327,15 +329,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget _registrationButton() {
     return _auth.status != AuthStatus.Authenticating
         ? Container(
-      padding: EdgeInsets.symmetric(horizontal: 90),
+            padding: EdgeInsets.symmetric(horizontal: 90),
             height: _deviceHeight * 0.06,
             width: _deviceWidth,
             child: MaterialButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
               onPressed: () {
-                if (_formkey.currentState.validate() && _image != null
-                ) {
+                if (_formkey.currentState.validate() && _image != null) {
                   _auth.registerUserWithEmailAndPassword(_email, _password,
                       (String _uid) async {
                     var _result = await CloudStorageService.instance
@@ -349,7 +350,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
               color: Colors.white,
               child: Text(
                 "Sign Up",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700,color: Colors.blue),
+                style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.blue),
               ),
             ),
           )
@@ -358,5 +362,4 @@ class _RegistrationPageState extends State<RegistrationPage> {
             child: CircularProgressIndicator(),
           );
   }
-
 }

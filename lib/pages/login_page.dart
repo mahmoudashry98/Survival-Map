@@ -284,7 +284,7 @@ class _LoginPageState extends State<LoginPage> {
             "Sign In"
                 "",
             style: TextStyle(
-                fontSize: 18,
+                fontSize: 17,
                 fontWeight: FontWeight.w700,
                 color: Colors.blue),
           ),
@@ -315,7 +315,7 @@ class _LoginPageState extends State<LoginPage> {
               "REGISTER",
               textAlign: TextAlign.end,
               style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 17,
                   fontWeight: FontWeight.w700,
                   color: Colors.blue),
             ),

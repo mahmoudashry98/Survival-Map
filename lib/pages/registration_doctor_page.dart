@@ -27,9 +27,11 @@ class _RegistrationDoctorPageState extends State<RegistrationDoctorPage> {
 
   TextEditingController password = TextEditingController();
   TextEditingController _confirmpassword = TextEditingController();
+
   _RegistrationDoctorPageState() {
     _formkey = GlobalKey<FormState>();
   }
+
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
@@ -43,9 +45,9 @@ class _RegistrationDoctorPageState extends State<RegistrationDoctorPage> {
               Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("lib/ima/SE4.jpeg"),
-                      fit: BoxFit.fill,
-                    )),
+                  image: AssetImage("lib/ima/SE4.jpeg"),
+                  fit: BoxFit.fill,
+                )),
                 child: Align(
                   alignment: Alignment.center,
                   child: ChangeNotifierProvider<AuthProvider>.value(
@@ -94,11 +96,13 @@ class _RegistrationDoctorPageState extends State<RegistrationDoctorPage> {
         children: <Widget>[
           Text(
             "      Welcome,",
-            style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700,color: Colors.white),
+            style: TextStyle(
+                fontSize: 35, fontWeight: FontWeight.w700, color: Colors.white),
           ),
           Text(
             "Let’s Create An Account!",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500,color: Colors.white),
+            style: TextStyle(
+                fontSize: 25, fontWeight: FontWeight.w500, color: Colors.white),
           ),
         ],
       ),
@@ -108,7 +112,6 @@ class _RegistrationDoctorPageState extends State<RegistrationDoctorPage> {
   Widget _inputForm() {
     return Container(
       height: _deviceHeight * 0.55,
-
       child: Form(
         key: _formkey,
         onChanged: () {
@@ -121,13 +124,13 @@ class _RegistrationDoctorPageState extends State<RegistrationDoctorPage> {
           children: <Widget>[
             Container(
                 child: Text(
-                  "Register..",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.blue,
-                  ),
-                )),
+              "Register..",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w900,
+                color: Colors.blue,
+              ),
+            )),
             _imageSelectorWidget(),
             _nameTextField(),
             _emailTextField(),
@@ -161,7 +164,7 @@ class _RegistrationDoctorPageState extends State<RegistrationDoctorPage> {
               image: _image != null
                   ? FileImage(_image)
                   : NetworkImage(
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWo3luud5KPZknLR5zdUUwzvYBztWgTxrkbA&usqp=CAU"),
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWo3luud5KPZknLR5zdUUwzvYBztWgTxrkbA&usqp=CAU"),
             ),
           ),
         ),
@@ -315,7 +318,6 @@ class _RegistrationDoctorPageState extends State<RegistrationDoctorPage> {
                   });
                 },
               ),
-
               prefixIcon: Icon(
                 Icons.lock,
                 color: Colors.black,
@@ -328,36 +330,37 @@ class _RegistrationDoctorPageState extends State<RegistrationDoctorPage> {
   Widget _registrationButton() {
     return _auth.status != AuthStatus.Authenticating
         ? Container(
-      padding: EdgeInsets.symmetric(horizontal: 90),
-      height: _deviceHeight * 0.06,
-      width: _deviceWidth,
-      child: MaterialButton(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20)),
-        onPressed: () {
-          if (_formkey.currentState.validate() && _image != null
-          ) {
-            _auth.registerDoctorWithEmailAndPassword(_email, _password,
-                    (String _uid) async {
-                  var _result = await CloudStorageService.instance
-                      .uploadDoctorImage(_uid, _image);
-                  var _imageURL = await _result.ref.getDownloadURL();
-                  await DBService.instance
-                      .createDoctorInDB(_uid, _name, _email, _imageURL);
-                });
-          }
-        },
-        color: Colors.white,
-        child: Text(
-          "Sign Up",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700,color: Colors.blue),
-        ),
-      ),
-    )
+            padding: EdgeInsets.symmetric(horizontal: 90),
+            height: _deviceHeight * 0.06,
+            width: _deviceWidth,
+            child: MaterialButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              onPressed: () {
+                if (_formkey.currentState.validate() && _image != null) {
+                  _auth.registerDoctorWithEmailAndPassword(_email, _password,
+                      (String _uid) async {
+                    var _result = await CloudStorageService.instance
+                        .uploadDoctorImage(_uid, _image);
+                    var _imageURL = await _result.ref.getDownloadURL();
+                    await DBService.instance
+                        .createDoctorInDB(_uid, _name, _email, _imageURL);
+                  });
+                }
+              },
+              color: Colors.white,
+              child: Text(
+                "Sign Up",
+                style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.blue),
+              ),
+            ),
+          )
         : Align(
-      alignment: Alignment.center,
-      child: CircularProgressIndicator(),
-    );
+            alignment: Alignment.center,
+            child: CircularProgressIndicator(),
+          );
   }
-
 }
