@@ -12,7 +12,7 @@ class SnackBarService {
     _buildContext = _context;
   }
 
-  void showSankBarError(String _message) {
+  void showSnackBarError(String _message) {
     Scaffold.of(_buildContext).showSnackBar(
       SnackBar(
         duration: Duration(seconds: 2),
@@ -25,7 +25,7 @@ class SnackBarService {
     );
   }
 
-  void showSankBarSuccess(String _message) {
+  void showSnackBarSuccess(String _message) {
     Scaffold.of(_buildContext).showSnackBar(
       SnackBar(
         duration: Duration(seconds: 2),

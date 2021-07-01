@@ -100,15 +100,6 @@ class _MyAppState extends State<MyApp> {
             "MyAccount": (BuildContext _context) => MyAccount(),
 
           },
-          home: StreamBuilder(
-              stream: FirebaseAuth.instance.onAuthStateChanged,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ChatPageUser();
-                } else {
-                  return LoginPage();
-                }
-              }),
         ));
   }
 }

@@ -54,7 +54,7 @@ class _ConversationPageState extends State<ConversationPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(31, 31, 31, 1.0),
+        backgroundColor: Colors.blue,
         title: Text(this.widget._receiverName),
       ),
       body: ChangeNotifierProvider<AuthProvider>.value(
@@ -115,8 +115,7 @@ class _ConversationPageState extends State<ConversationPage> {
                 child: Text("Let's start a conversation!"),
               );
             }
-          }
-          else {
+          } else {
             return SpinKitWanderingCubes(
               color: Colors.blue,
               size: 50.0,
@@ -204,7 +203,7 @@ class _ConversationPageState extends State<ConversationPage> {
     DecorationImage _image =
         DecorationImage(image: NetworkImage(_imageURL), fit: BoxFit.cover);
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         gradient: LinearGradient(
@@ -238,9 +237,9 @@ class _ConversationPageState extends State<ConversationPage> {
 
   Widget _messageField(BuildContext _context) {
     return Container(
-      height: _deviceHeight * 0.08,
+      height: _deviceHeight * 0.06,
       decoration: BoxDecoration(
-        color: Color.fromRGBO(43, 43, 43, 1),
+        color: Colors.black12,
         borderRadius: BorderRadius.circular(100),
       ),
       margin: EdgeInsets.symmetric(
@@ -279,7 +278,7 @@ class _ConversationPageState extends State<ConversationPage> {
             _messageText = _input;
           });
         },
-        cursorColor: Colors.white,
+        cursorColor: Colors.black12,
         decoration: InputDecoration(
             border: InputBorder.none, hintText: "Type a message"),
         autocorrect: false,
@@ -294,7 +293,7 @@ class _ConversationPageState extends State<ConversationPage> {
       child: IconButton(
           icon: Icon(
             Icons.send,
-            color: Colors.white,
+            color: Colors.blue,
           ),
           onPressed: () {
             if (_formKey.currentState.validate()) {
@@ -334,7 +333,8 @@ class _ConversationPageState extends State<ConversationPage> {
             );
           }
         },
-        child: Icon(Icons.camera_enhance),
+        child: Icon(Icons.camera_enhance
+        ,color: Colors.blue,),
       ),
     );
   }

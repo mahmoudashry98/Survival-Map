@@ -50,50 +50,50 @@ class RecentConversationsPage extends StatelessWidget {
                 });
                 return _data.length != 0
                     ? ListView.builder(
-                        itemCount: _data.length,
-                        itemBuilder: (_context, _index) {
-                          return ListTile(
-                            onTap: () {
-                              NavigationService.instance.navigateToRoute(
-                                MaterialPageRoute(
-                                  builder: (BuildContext _context) {
-                                    return ConversationPage(
-                                        _data[_index].conversationID,
-                                        _data[_index].id,
-                                        _data[_index].name,
-                                        _data[_index].image);
-                                  },
-                                ),
-                              );
+                  itemCount: _data.length,
+                  itemBuilder: (_context, _index) {
+                    return ListTile(
+                      onTap: () {
+                        NavigationService.instance.navigateToRoute(
+                          MaterialPageRoute(
+                            builder: (BuildContext _context) {
+                              return ConversationPage(
+                                  _data[_index].conversationID,
+                                  _data[_index].id,
+                                  _data[_index].name,
+                                  _data[_index].image);
                             },
-                            title: Text(_data[_index].name),
-                            subtitle: Text(
-                                _data[_index].type == MessageType.Text
-                                    ? _data[_index].lastMessage
-                                    : "Attachment: Image"),
-                            leading: Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(_data[_index].image),
-                                ),
-                              ),
-                            ),
-                            trailing: _listTileTrailingWidgets(
-                                _data[_index].timestamp),
-                          );
-                        },
-                      )
-                    : Align(
-                        child: Text(
-                          "No Conversations Yet!",
-                          style:
-                              TextStyle(color: Colors.white30, fontSize: 15.0),
+                          ),
+                        );
+                      },
+                      title: Text(_data[_index].name),
+                      subtitle: Text(
+                          _data[_index].type == MessageType.Text
+                              ? _data[_index].lastMessage
+                              : "Attachment: Image"),
+                      leading: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(_data[_index].image),
+                          ),
                         ),
-                      );
+                      ),
+                      trailing: _listTileTrailingWidgets(
+                          _data[_index].timestamp),
+                    );
+                  },
+                )
+                    : Align(
+                  child: Text(
+                    "No Conversations Yet!",
+                    style:
+                    TextStyle(color: Colors.white30, fontSize: 15.0),
+                  ),
+                );
               } else {
                 return SpinKitWanderingCubes(
                   color: Colors.blue,

@@ -63,7 +63,7 @@ class DBService {
     });
   }
 
-  Future<void> createOrGetConversartion(String _currentID, String _recepientID,
+  Future<void> createOrGetConversation(String _currentID, String _recepientID,
       Future<void> _onSuccess(String _conversationID)) async {
     var _ref = _db.collection(_conversationsCollection);
     var _userConversationRef = _db

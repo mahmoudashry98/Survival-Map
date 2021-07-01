@@ -18,7 +18,6 @@ class CloudStorageService {
     _baseRef = _storage.ref();
   }
 
-  // ignore: missing_return
   Future<StorageTaskSnapshot> uploadUserImage(String _uid, File _image) {
     try {
       return _baseRef
@@ -30,18 +29,7 @@ class CloudStorageService {
       print(e);
     }
   }
-  Future<StorageTaskSnapshot> uploadDoctorImage(String _uid, File _image) {
-    try {
-      return _baseRef
-          .child(_profileImages)
-          .child(_uid)
-          .putFile(_image)
-          .onComplete;
-    } catch (e) {
-      print(e);
-    }
-  }
-  // ignore: missing_return
+
   Future<StorageTaskSnapshot> uploadMediaMessage(String _uid, File _file) {
     var _timestamp = DateTime.now();
     var _fileName = basename(_file.path);
