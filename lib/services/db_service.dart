@@ -1,7 +1,9 @@
+import 'package:chatify/models/contact_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../models/contact.dart';
+import '../models/contact_user.dart';
 import '../models/conversation.dart';
+import '../models/message.dart';
 
 class DBService {
   static DBService instance = DBService();
@@ -13,7 +15,6 @@ class DBService {
   }
 
   String _userCollection = "Users";
-  String _doctorCollection = "Doctors";
   String _conversationsCollection = "Conversations";
 
   Future<void> createUserInDB(
@@ -30,59 +31,39 @@ class DBService {
     }
   }
 
-  Future<void> createDoctorInDB(
-      String _uid, String _name, String _email, String _imageURL) async {
-    try {
-      return await _db.collection(_doctorCollection).document(_uid).setData({
-        "name": _name,
-        "email": _email,
-        "image": _imageURL,
-        "lastSeen": DateTime.now().toUtc(),
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-
   Future<void> updateUserLastSeenTime(String _userID) {
     var _ref = _db.collection(_userCollection).document(_userID);
     return _ref.updateData({"lastSeen": Timestamp.now()});
   }
 
-  Future<void> updateDoctorLastSeenTime(String _userID) {
-    var _ref = _db.collection(_doctorCollection).document(_userID);
-    return _ref.updateData({"lastSeen": Timestamp.now()});
+  Future<void> sendMessage(String _conversationID, Message _message) {
+    var _ref =
+    _db.collection(_conversationsCollection).document(_conversationID);
+    var _messageType = "";
+    switch (_message.type) {
+      case MessageType.Text:
+        _messageType = "text";
+        break;
+      case MessageType.Image:
+        _messageType = "image";
+        break;
+      default:
+    }
+    return _ref.updateData({
+      "messages": FieldValue.arrayUnion(
+        [
+          {
+            "message": _message.content,
+            "senderID": _message.senderID,
+            "timestamp": _message.timestamp,
+            "type": _messageType,
+          },
+        ],
+      ),
+    });
   }
 
-  // Future<void> sendMessage(String _conversationID, Message _message) {
-  //   var _ref =
-  //   _db.collection(_conversationsCollection).document(_conversationID);
-  //   var _messageType = "";
-  //   switch (_message.type) {
-  //     case MessageType.Text:
-  //       _messageType = "text";
-  //       break;
-  //     case MessageType.Image:
-  //       _messageType = "image";
-  //       break;
-  //     default:
-  //   }
-  //   return _ref.updateData({
-  //     "messages": FieldValue.arrayUnion(
-  //       [
-  //         {
-  //           "message": _message.content,
-  //           "senderID": _message.senderID,
-  //           "timestamp": _message.timestamp,
-  //           "type": _messageType,
-  //         },
-  //       ],
-  //     ),
-  //   });
-  // }
-
-  Future<void> createOrGetConversation(String _currentID, String _recepientID,
+  Future<void> createOrGetConversartion(String _currentID, String _recepientID,
       Future<void> _onSuccess(String _conversationID)) async {
     var _ref = _db.collection(_conversationsCollection);
     var _userConversationRef = _db
@@ -117,13 +98,6 @@ class DBService {
     });
   }
 
-  Stream<Contact> getDoctorData(String _userID) {
-    var _ref = _db.collection(_doctorCollection).document(_userID);
-    return _ref.get().asStream().map((_snapshot) {
-      return Contact.fromFirestore(_snapshot);
-    });
-  }
-
   Stream<List<ConversationSnippet>> getUserConversations(String _userID) {
     var _ref = _db
         .collection(_userCollection)
@@ -138,9 +112,9 @@ class DBService {
 
   Stream<List<Contact>> getUsersInDB(String _searchName) {
     var _ref = _db
-        .collection(_userCollection);
-        // .where("name", isGreaterThanOrEqualTo: _searchName)
-        // .where("name", isLessThan: _searchName + 'z');
+        .collection(_userCollection)
+        .where("name", isGreaterThanOrEqualTo: _searchName)
+        .where("name", isLessThan: _searchName + 'z');
     return _ref.getDocuments().asStream().map((_snapshot) {
       return _snapshot.documents.map((_doc) {
         return Contact.fromFirestore(_doc);
@@ -148,25 +122,13 @@ class DBService {
     });
   }
 
-  Stream<List<Contact>> getDoctorsInDB(String _searchName) {
-    var _ref = _db
-        .collection(_doctorCollection);
-        // .where("name", isGreaterThanOrEqualTo: _searchName)
-        // .where("name", isLessThan: _searchName + 'z');
-    return _ref.getDocuments().asStream().map((_snapshot) {
-      return _snapshot.documents.map((_doc) {
-        return Contact.fromFirestore(_doc);
-      }).toList();
-    });
+  Stream<Conversation> getConversation(String _conversationID) {
+    var _ref =
+    _db.collection(_conversationsCollection).document(_conversationID);
+    return _ref.snapshots().map(
+          (_doc) {
+        return Conversation.fromFirestore(_doc);
+      },
+    );
   }
-
-  // Stream<Conversation> getConversation(String _conversationID) {
-  //   var _ref =
-  //   _db.collection(_conversationsCollection).document(_conversationID);
-  //   return _ref.snapshots().map(
-  //         (_doc) {
-  //       return Conversation.fromFirestore(_doc);
-  //     },
-  //   );
-  // }
 }

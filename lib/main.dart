@@ -1,4 +1,4 @@
-import 'package:chatify/models/contact.dart';
+import 'package:chatify/models/contact_user.dart';
 import 'package:chatify/pages/home_page.dart';
 import 'package:chatify/pages/home_page_doctor.dart';
 import 'package:chatify/pages/my_account.dart';
@@ -93,16 +93,18 @@ class _MyAppState extends State<MyApp> {
           initialRoute: "login",
           routes: {
             "login": (BuildContext _context) => LoginPage(),
-            "sign in": (BuildContext _context) => HomePageDoctor(),
+            // "sign in": (BuildContext _context) => HomePageDoctor(),
+            // "homedoctor": (BuildContext _context) => HomePageDoctor(),
             "register": (BuildContext _context) => RegistrationPage(),
             "home": (BuildContext _context) => HomePage(),
             "MyAccount": (BuildContext _context) => MyAccount(),
+
           },
           home: StreamBuilder(
               stream: FirebaseAuth.instance.onAuthStateChanged,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return ChatPage();
+                  return ChatPageUser();
                 } else {
                   return LoginPage();
                 }

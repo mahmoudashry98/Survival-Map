@@ -1,7 +1,5 @@
-
-import 'package:chatify/pages/recent_conversations_page.dart';
-import 'package:chatify/pages/search_page.dart';
-import 'package:chatify/pages/setting.dart';
+import '../pages/recent_conversations_page.dart';
+import '../pages/search_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -27,12 +25,12 @@ class Contact {
   }
 }
 
-class ChatPage extends StatefulWidget {
+class ChatPageUser extends StatefulWidget {
   @override
-  _ChatPageState createState() => _ChatPageState();
+  _ChatPageUserState createState() => _ChatPageUserState();
 }
 
-class _ChatPageState extends State<ChatPage>
+class _ChatPageUserState extends State<ChatPageUser>
     with SingleTickerProviderStateMixin{
   double _height;
   double _width;

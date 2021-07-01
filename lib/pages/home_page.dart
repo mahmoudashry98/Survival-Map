@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:chatify/pages/map_page.dart';
-import 'package:chatify/models/contact.dart';
-import 'package:chatify/pages/setting.dart';
+import 'package:chatify/models/contact_user.dart';
+import 'package:chatify/pages/setting_user_page.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
@@ -15,8 +15,8 @@ class _NavState extends State<HomePage> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
     GMap(),
-    ChatPage(),
-    SettingPage(),
+    ChatPageUser(),
+    SettingUserPage(),
   ];
 
   void _onItemTap(int index) {

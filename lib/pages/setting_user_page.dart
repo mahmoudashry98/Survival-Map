@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SettingPage extends StatelessWidget {
+class SettingUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

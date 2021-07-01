@@ -223,10 +223,8 @@ class _LoginPageState extends State<LoginPage> {
           width: double.infinity,
           child: InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => ForgotScreen()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (ctx) => ResetPassword()));
               },
               child: Text(
                 "Forgot password ? ",
@@ -245,7 +243,7 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => LoginDoctorPage()));
+                        builder: (BuildContext context) => LoginPage()));
               },
               child: Text(
                 "I’m Doctor ",
