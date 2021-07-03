@@ -1,11 +1,5 @@
-import 'package:chatify/models/contact_user.dart';
 import 'package:chatify/pages/home_page.dart';
-import 'package:chatify/pages/home_page_doctor.dart';
 import 'package:chatify/pages/my_account.dart';
-import 'package:chatify/providers/auth_provider.dart';
-import 'package:chatify/services/db_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
@@ -93,8 +87,6 @@ class _MyAppState extends State<MyApp> {
           initialRoute: "login",
           routes: {
             "login": (BuildContext _context) => LoginPage(),
-            // "sign in": (BuildContext _context) => HomePageDoctor(),
-            // "homedoctor": (BuildContext _context) => HomePageDoctor(),
             "register": (BuildContext _context) => RegistrationPage(),
             "home": (BuildContext _context) => HomePage(),
             "MyAccount": (BuildContext _context) => MyAccount(),

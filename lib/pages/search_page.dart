@@ -1,4 +1,3 @@
-import 'package:chatify/models/contact_user.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -11,14 +10,15 @@ import '../services/db_service.dart';
 import '../services/navigation_service.dart';
 import '../pages/conversation_page.dart';
 
-import '../models/contact_user.dart';
+import '../models/contact.dart';
 
 
 
 
 class SearchPage extends StatefulWidget {
 
-  //SearchPage(this, this._width);
+
+  //SearchPage(this._height, this._width);
 
   @override
   State<StatefulWidget> createState() {
@@ -30,6 +30,7 @@ class _SearchPageState extends State<SearchPage> {
   String _searchText;
   double _deviceHeight;
   double _deviceWidth;
+
   AuthProvider _auth;
 
   _SearchPageState() {
@@ -96,16 +97,17 @@ class _SearchPageState extends State<SearchPage> {
         var _usersData = _snapshot.data;
         if (_usersData != null) {
           _usersData.removeWhere((_contact) => _contact.id == _auth.user.uid);
+          _usersData.removeWhere((_contact) => _contact.isUser == false);
         }
         return _snapshot.hasData
             ? Container(
-          height: 285,
+            height: 285,
           child: ListView.builder(
             itemCount: _usersData.length,
             itemBuilder: (BuildContext _context, int _index) {
               var _userData = _usersData[_index];
               var _currentTime = DateTime.now();
-              var _recepientID = _usersData[_index].id;
+              var _receiverID = _usersData[_index].id;
               var _isUserActive = !_userData.lastseen.toDate().isBefore(
                 _currentTime.subtract(
                   Duration(hours: 1),
@@ -114,14 +116,13 @@ class _SearchPageState extends State<SearchPage> {
               return ListTile(
                 onTap: () {
                   DBService.instance.createOrGetConversation(
-                      _auth.user.uid, _recepientID,
-
-                          (String _conversationID) async{
+                      _auth.user.uid, _receiverID,
+                          (String _conversationID) {
                         NavigationService.instance.navigateToRoute(
                           MaterialPageRoute(builder: (_context) {
                             return ConversationPage(
                                 _conversationID,
-                                _recepientID,
+                                _receiverID,
                                 _userData.name,
                                 _userData.image);
                           }),

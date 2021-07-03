@@ -73,7 +73,6 @@ class AuthProvider extends ChangeNotifier {
       await onSuccess(user.uid);
       SnackBarService.instance.showSnackBarSuccess("Welcome, ${user.email}");
       await DBService.instance.updateUserLastSeenTime(user.uid);
-      // NavigationService.instance.goBack();
       NavigationService.instance.navigateToReplacement("home");
     } catch (e) {
       status = AuthStatus.Error;

@@ -42,8 +42,8 @@ class RecentConversationsPage extends StatelessWidget {
           width: _width,
           child: StreamBuilder<List<ConversationSnippet>>(
             stream: DBService.instance.getUserConversations(_auth.user.uid),
-            builder: (_context, _snashot) {
-              var _data = _snashot.data;
+            builder: (_context, _snapshot) {
+              var _data = _snapshot.data;
               if (_data != null) {
                 _data.removeWhere((_c) {
                   return _c.timestamp == null;
@@ -91,7 +91,7 @@ class RecentConversationsPage extends StatelessWidget {
                   child: Text(
                     "No Conversations Yet!",
                     style:
-                    TextStyle(color: Colors.white30, fontSize: 15.0),
+                    TextStyle(color: Colors.black, fontSize: 15.0),
                   ),
                 );
               } else {

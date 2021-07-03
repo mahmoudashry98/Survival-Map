@@ -4,7 +4,6 @@ import '../providers/auth_provider.dart';
 import '../services/snackbar_service.dart';
 import '../services/navigation_service.dart';
 import '../pages/forgot_page.dart';
-import '../pages/login_doctors_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -135,8 +134,10 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.blue,
                   ),
                 )),
+
             _emailTextField(),
             _PasswordTextField(),
+
           ],
         ),
       ),
@@ -235,25 +236,7 @@ class _LoginPageState extends State<LoginPage> {
                 textAlign: TextAlign.end,
               )),
         ),
-        Container(
-          padding: EdgeInsets.only(top: 5),
-          width: _deviceWidht * 0.5,
-          child: InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => LoginPage()));
-              },
-              child: Text(
-                "I’m Doctor ",
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400),
-                textAlign: TextAlign.end,
-              )),
-        ),
+
       ],
     );
   }
@@ -320,6 +303,20 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
       ),
+    );
+  }
+  Widget _border(){
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: BorderRadiusDirectional.only(
+          bottomEnd: Radius.circular(10.0),
+          topStart: Radius.circular(10.0),
+          topEnd: Radius.circular(10.0),
+
+        )
+      ),
+      padding: EdgeInsets.symmetric(vertical: 30.0,horizontal: 25.0),
     );
   }
 

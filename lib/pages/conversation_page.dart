@@ -91,7 +91,7 @@ class _ConversationPageState extends State<ConversationPage> {
         builder: (BuildContext _context, _snapshot) {
           Timer(
             Duration(milliseconds: 50),
-            () => {
+                () => {
               _listViewController
                   .jumpTo(_listViewController.position.maxScrollExtent),
             },
@@ -126,6 +126,7 @@ class _ConversationPageState extends State<ConversationPage> {
     );
   }
 
+
   Widget _messageListViewChild(bool _isOwnMessage, Message _message) {
     return Padding(
       padding: EdgeInsets.only(bottom: 10),
@@ -139,9 +140,9 @@ class _ConversationPageState extends State<ConversationPage> {
           SizedBox(width: _deviceWidth * 0.02),
           _message.type == MessageType.Text
               ? _textMessageBubble(
-                  _isOwnMessage, _message.content, _message.timestamp)
+                  _isOwnMessage, _message.message, _message.timestamp)
               : _imageMessageBubble(
-                  _isOwnMessage, _message.content, _message.timestamp),
+                  _isOwnMessage, _message.message, _message.timestamp),
         ],
       ),
     );
@@ -165,8 +166,8 @@ class _ConversationPageState extends State<ConversationPage> {
   Widget _textMessageBubble(
       bool _isOwnMessage, String _message, Timestamp _timestamp) {
     List<Color> _colorScheme = _isOwnMessage
-        ? [Colors.blue, Color.fromRGBO(42, 117, 188, 1)]
-        : [Color.fromRGBO(69, 69, 69, 1), Color.fromRGBO(43, 43, 43, 1)];
+        ? [Colors.blue, Colors.blue]
+        : [Colors.blueGrey, Colors.blueGrey];
     return Container(
       height: _deviceHeight * 0.08 + (_message.length / 20 * 5.0),
       width: _deviceWidth * 0.75,
@@ -300,7 +301,7 @@ class _ConversationPageState extends State<ConversationPage> {
               DBService.instance.sendMessage(
                 this.widget._conversationID,
                 Message(
-                    content: _messageText,
+                    message: _messageText,
                     timestamp: Timestamp.now(),
                     senderID: _auth.user.uid,
                     type: MessageType.Text),
@@ -326,7 +327,7 @@ class _ConversationPageState extends State<ConversationPage> {
             await DBService.instance.sendMessage(
               this.widget._conversationID,
               Message(
-                  content: _imageURL,
+                  message: _imageURL,
                   senderID: _auth.user.uid,
                   timestamp: Timestamp.now(),
                   type: MessageType.Image),

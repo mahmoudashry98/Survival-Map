@@ -7,9 +7,15 @@ enum MessageType {
 
 class Message {
   final String senderID;
-  final String content;
+  final String message;
+  final String receiverID;
   final Timestamp timestamp;
   final MessageType type;
 
-  Message({this.senderID, this.content, this.timestamp, this.type});
+  Message({
+    this.senderID,
+    this.message,
+    this.receiverID,
+    this.timestamp,
+    this.type});
 }

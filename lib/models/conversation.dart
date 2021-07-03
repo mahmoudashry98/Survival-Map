@@ -64,7 +64,7 @@ class Conversation {
             (_m) {
           return Message(
               type: _m["type"] == "text" ? MessageType.Text : MessageType.Image,
-              content: _m["message"],
+              message: _m["message"],
               timestamp: _m["timestamp"],
               senderID: _m["senderID"]);
         },

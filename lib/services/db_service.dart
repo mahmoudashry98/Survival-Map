@@ -1,14 +1,18 @@
-import 'package:chatify/models/contact_user.dart';
+import 'package:chatify/models/contact.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-import '../models/contact_user.dart';
+import '../models/contact.dart';
 import '../models/conversation.dart';
 import '../models/message.dart';
 
 class DBService {
   static DBService instance = DBService();
 
+
+
   Firestore _db;
+
 
   DBService() {
     _db = Firestore.instance;
@@ -18,18 +22,21 @@ class DBService {
   String _conversationsCollection = "Conversations";
 
   Future<void> createUserInDB(
-      String _uid, String _name, String _email, String _imageURL) async {
+      String _uid, String _name, String _email, String _imageURL,bool _isUser) async {
     try {
       return await _db.collection(_userCollection).document(_uid).setData({
         "name": _name,
         "email": _email,
         "image": _imageURL,
+        "isUser": _isUser,
         "lastSeen": DateTime.now().toUtc(),
       });
     } catch (e) {
       print(e);
     }
   }
+
+
 
   Future<void> updateUserLastSeenTime(String _userID) {
     var _ref = _db.collection(_userCollection).document(_userID);
@@ -53,7 +60,7 @@ class DBService {
       "messages": FieldValue.arrayUnion(
         [
           {
-            "message": _message.content,
+            "message": _message.message,
             "senderID": _message.senderID,
             "timestamp": _message.timestamp,
             "type": _messageType,
@@ -121,6 +128,15 @@ class DBService {
       }).toList();
     });
   }
+
+
+  // Stream<Conversation> getConversation(String _conversationID){
+  //   Firestore.instance
+  //       .collection(_userCollection)
+  //       .document(_conversationID)
+  //       .collection(_conversationsCollection)
+  //       .document()
+  // }
 
   Stream<Conversation> getConversation(String _conversationID) {
     var _ref =

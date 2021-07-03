@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chatify/pages/map_page.dart';
-import 'package:chatify/models/contact_user.dart';
+import 'package:chatify/models/contact.dart';
 import 'package:chatify/pages/setting_user_page.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
