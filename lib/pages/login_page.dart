@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/auth_provider.dart';
-import '../services/snackbar_service.dart';
-import '../services/navigation_service.dart';
+
 import '../pages/forgot_page.dart';
+import '../providers/auth_provider.dart';
+import '../services/navigation_service.dart';
+import '../services/snackbar_service.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -125,10 +126,8 @@ class _LoginPageState extends State<LoginPage> {
                 color: Colors.blue,
               ),
             )),
-
             _emailTextField(),
             _PasswordTextField(),
-
           ],
         ),
       ),
@@ -227,7 +226,6 @@ class _LoginPageState extends State<LoginPage> {
                 textAlign: TextAlign.end,
               )),
         ),
-
       ],
     );
   }
@@ -296,18 +294,17 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-  Widget _border(){
+
+  Widget _border() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadiusDirectional.only(
-          bottomEnd: Radius.circular(10.0),
-          topStart: Radius.circular(10.0),
-          topEnd: Radius.circular(10.0),
-
-        )
-      ),
-      padding: EdgeInsets.symmetric(vertical: 30.0,horizontal: 25.0),
+          color: Colors.grey[300],
+          borderRadius: BorderRadiusDirectional.only(
+            bottomEnd: Radius.circular(10.0),
+            topStart: Radius.circular(10.0),
+            topEnd: Radius.circular(10.0),
+          )),
+      padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 25.0),
     );
   }
 }

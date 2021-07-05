@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
 import 'dart:io';
-import '../services/snackbar_service.dart';
-import '../services/navigation_service.dart';
+
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/auth_provider.dart';
 import '../services/cloud_storage_service.dart';
 import '../services/db_service.dart';
 import '../services/media_service.dart';
-import '../providers/auth_provider.dart';
-import 'package:provider/provider.dart';
-import '../services/db_service.dart';
+import '../services/snackbar_service.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -25,7 +25,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   String _email;
   String _password;
   File _image;
-  bool _isUser=false;
+  bool _isUser = false;
 
   TextEditingController password = TextEditingController();
   TextEditingController _confirmpassword = TextEditingController();
@@ -165,8 +165,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               image: _image != null
                   ? FileImage(_image)
                   : NetworkImage(
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWo3luud5KPZknLR5zdUUwzvYBztWgTxrkbA&usqp=CAU"
-              ),
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWo3luud5KPZknLR5zdUUwzvYBztWgTxrkbA&usqp=CAU"),
             ),
           ),
         ),
@@ -284,8 +283,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   Widget _confirmpasswordTextField() {
-    return Column(
-      children:<Widget>[ Card(
+    return Column(children: <Widget>[
+      Card(
           margin: EdgeInsets.all(5),
           color: Color.fromRGBO(208, 211, 212, 1),
           child: TextFormField(
@@ -325,17 +324,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 color: Colors.black,
               ),
             ),
-          )
-      ),
-        // Checkbox(
-        //     value: _isUser, onChanged: (bool value){
-        //       print(value);
-        //       setState(() {
-        //         _isUser =value;
-        //       });
-        // })
-]
-    );
+          )),
+      // Checkbox(
+      //     value: _isUser, onChanged: (bool value){
+      //       print(value);
+      //       setState(() {
+      //         _isUser =value;
+      //       });
+      // })
+    ]);
   }
 
   Widget _registrationButton() {
@@ -354,8 +351,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     var _result = await CloudStorageService.instance
                         .uploadUserImage(_uid, _image);
                     var _imageURL = await _result.ref.getDownloadURL();
-                    await DBService.instance
-                        .createUserInDB(_uid, _name, _email, _imageURL,_isUser);
+                    await DBService.instance.createUserInDB(
+                        _uid, _name, _email, _imageURL, _isUser);
                   });
                 }
               },

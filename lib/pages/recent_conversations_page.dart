@@ -1,19 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:timeago/timeago.dart' as timeago;
 import 'package:provider/provider.dart';
-
-import '../providers/auth_provider.dart';
-
-import '../services/db_service.dart';
-import '../services/navigation_service.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../models/conversation.dart';
 import '../models/message.dart';
-
 import '../pages/conversation_page.dart';
+import '../providers/auth_provider.dart';
+import '../services/db_service.dart';
+import '../services/navigation_service.dart';
 
 class RecentConversationsPage extends StatelessWidget {
   final double _height;
@@ -50,50 +46,49 @@ class RecentConversationsPage extends StatelessWidget {
                 });
                 return _data.length != 0
                     ? ListView.builder(
-                  itemCount: _data.length,
-                  itemBuilder: (_context, _index) {
-                    return ListTile(
-                      onTap: () {
-                        NavigationService.instance.navigateToRoute(
-                          MaterialPageRoute(
-                            builder: (BuildContext _context) {
-                              return ConversationPage(
-                                  _data[_index].conversationID,
-                                  _data[_index].id,
-                                  _data[_index].name,
-                                  _data[_index].image);
+                        itemCount: _data.length,
+                        itemBuilder: (_context, _index) {
+                          return ListTile(
+                            onTap: () {
+                              NavigationService.instance.navigateToRoute(
+                                MaterialPageRoute(
+                                  builder: (BuildContext _context) {
+                                    return ConversationPage(
+                                        _data[_index].conversationID,
+                                        _data[_index].id,
+                                        _data[_index].name,
+                                        _data[_index].image);
+                                  },
+                                ),
+                              );
                             },
-                          ),
-                        );
-                      },
-                      title: Text(_data[_index].name),
-                      subtitle: Text(
-                          _data[_index].type == MessageType.Text
-                              ? _data[_index].lastMessage
-                              : "Attachment: Image"),
-                      leading: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(_data[_index].image),
-                          ),
-                        ),
-                      ),
-                      trailing: _listTileTrailingWidgets(
-                          _data[_index].timestamp),
-                    );
-                  },
-                )
+                            title: Text(_data[_index].name),
+                            subtitle: Text(
+                                _data[_index].type == MessageType.Text
+                                    ? _data[_index].lastMessage
+                                    : "Attachment: Image"),
+                            leading: Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(_data[_index].image),
+                                ),
+                              ),
+                            ),
+                            trailing: _listTileTrailingWidgets(
+                                _data[_index].timestamp),
+                          );
+                        },
+                      )
                     : Align(
-                  child: Text(
-                    "No Conversations Yet!",
-                    style:
-                    TextStyle(color: Colors.black, fontSize: 15.0),
-                  ),
-                );
+                        child: Text(
+                          "No Conversations Yet!",
+                          style: TextStyle(color: Colors.black, fontSize: 15.0),
+                        ),
+                      );
               } else {
                 return SpinKitWanderingCubes(
                   color: Colors.blue,

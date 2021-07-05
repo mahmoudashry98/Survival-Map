@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:collection';
+
 import 'package:chatify/blocs/application_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,6 @@ class GMap extends StatefulWidget {
 }
 
 class _GMapState extends State<GMap> {
-  Set<Circle> _circles = HashSet<Circle>();
   Completer<GoogleMapController> _controller = Completer();
 
   bool infected = false;
@@ -25,12 +24,9 @@ class _GMapState extends State<GMap> {
   @override
   void initState() {
     super.initState();
-    _setCircles();
 
     Timer.periodic(new Duration(seconds: 15), (timer) async {
-      print('hiiiiiiii');
       if (infected == true) {
-        print('hello');
         await storeUserLocation();
       }
     });
@@ -57,17 +53,6 @@ class _GMapState extends State<GMap> {
       'name': 'Corona',
       'location': GeoPoint(currentLocation.latitude, currentLocation.longitude)
     });
-  }
-
-  void _setCircles() {
-    _circles.add(
-      Circle(
-          circleId: CircleId("0"),
-          center: LatLng(37.76493, -122.42432),
-          radius: 1000,
-          strokeWidth: 2,
-          fillColor: Color.fromRGBO(153, 51, 51, 0.7098039215686275)),
-    );
   }
 
   GoogleMapController mapController;
@@ -147,7 +132,6 @@ class _GMapState extends State<GMap> {
                         applicationBloc.currentLocation.longitude),
                     zoom: 12,
                   ),
-                  circles: _circles,
                   myLocationEnabled: true,
                   scrollGesturesEnabled: true,
                   zoomGesturesEnabled: true,
