@@ -108,7 +108,7 @@ class _SearchPageState extends State<SearchPage> {
               var _userData = _usersData[_index];
               var _currentTime = DateTime.now();
               var _receiverID = _usersData[_index].id;
-              var _isUserActive = !_userData.lastseen.toDate().isBefore(
+              var _isUserActive = !_userData.lastSeen.toDate().isBefore(
                 _currentTime.subtract(
                   Duration(hours: 1),
                 ),
@@ -166,7 +166,7 @@ class _SearchPageState extends State<SearchPage> {
                     )
                         : Text(
                       timeago.format(
-                        _userData.lastseen.toDate(),
+                        _userData.lastSeen.toDate(),
                       ),
                       style: TextStyle(fontSize: 15),
                     ),

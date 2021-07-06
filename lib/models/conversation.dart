@@ -20,7 +20,8 @@ class ConversationSnippet {
         this.timestamp,
         this.name,
         this.image,
-        this.type});
+        this.type
+      });
 
   factory ConversationSnippet.fromFirestore(DocumentSnapshot _snapshot) {
     var _data = _snapshot.data;
@@ -64,7 +65,7 @@ class Conversation {
             (_m) {
           return Message(
               type: _m["type"] == "text" ? MessageType.Text : MessageType.Image,
-              message: _m["message"],
+              content: _m["message"],
               timestamp: _m["timestamp"],
               senderID: _m["senderID"]);
         },

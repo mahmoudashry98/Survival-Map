@@ -1,13 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../providers/auth_provider.dart';
+import 'dart:io';
+import '../services/snackbar_service.dart';
+import '../services/navigation_service.dart';
 import '../services/cloud_storage_service.dart';
 import '../services/db_service.dart';
 import '../services/media_service.dart';
-import '../services/snackbar_service.dart';
+import '../providers/auth_provider.dart';
+import 'package:provider/provider.dart';
+import '../services/db_service.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -22,13 +22,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
   GlobalKey<FormState> _formkey;
   AuthProvider _auth;
   String _name;
+  String _age;
+  String _address;
+  String _phone;
   String _email;
   String _password;
   File _image;
   bool _isUser = false;
 
   TextEditingController password = TextEditingController();
-  TextEditingController _confirmpassword = TextEditingController();
+  TextEditingController _confirmPassword = TextEditingController();
 
   _RegistrationPageState() {
     _formkey = GlobalKey<FormState>();
@@ -136,7 +139,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             _nameTextField(),
             _emailTextField(),
             _passwordTextField(),
-            _confirmpasswordTextField(),
+            _confirmPasswordTextField(),
             // _backToLoginPageButton()
           ],
         ),
@@ -282,20 +285,20 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
   }
 
-  Widget _confirmpasswordTextField() {
+  Widget _confirmPasswordTextField() {
     return Column(children: <Widget>[
       Card(
           margin: EdgeInsets.all(5),
           color: Color.fromRGBO(208, 211, 212, 1),
           child: TextFormField(
-            controller: _confirmpassword,
+            controller: _confirmPassword,
             autocorrect: false,
             obscureText: passwordVisible,
             style: TextStyle(color: Colors.black),
             validator: (_input) {
               if (_input.isEmpty) {
                 return 'Password cannot be empty';
-              } else if (password.text != _confirmpassword.text) {
+              } else if (password.text != _confirmPassword.text) {
                 return 'Password do not match!';
               }
               return null;
@@ -325,13 +328,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
             ),
           )),
-      // Checkbox(
-      //     value: _isUser, onChanged: (bool value){
-      //       print(value);
-      //       setState(() {
-      //         _isUser =value;
-      //       });
-      // })
+      Checkbox(
+          value: _isUser,
+          onChanged: (bool value) {
+            print(value);
+            setState(() {
+              _isUser = value;
+            });
+          })
     ]);
   }
 
@@ -351,8 +355,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     var _result = await CloudStorageService.instance
                         .uploadUserImage(_uid, _image);
                     var _imageURL = await _result.ref.getDownloadURL();
-                    await DBService.instance.createUserInDB(
-                        _uid, _name, _email, _imageURL, _isUser);
+                    await DBService.instance.createUserInDB(_uid, _name, _email,
+                        _imageURL, _isUser, _age, _address, _phone);
                   });
                 }
               },

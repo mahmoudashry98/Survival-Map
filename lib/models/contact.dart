@@ -8,23 +8,30 @@ class Contact {
   final String id;
   final String email;
   final String image;
-  final Timestamp lastseen;
+  final Timestamp lastSeen;
   final String name;
   final bool isUser;
+  final String age;
+  final String address;
+  final int phone;
 
   Contact({
     this.id,
     this.email,
     this.name,
     this.image,
-    this.lastseen,
-    this.isUser});
+    this.lastSeen,
+    this.isUser,
+    this.age,
+    this.address,
+    this.phone,
+  });
 
   factory Contact.fromFirestore(DocumentSnapshot _snapshot) {
     var _data = _snapshot.data;
     return Contact(
       id: _snapshot.documentID,
-      lastseen: _data["lastSeen"],
+      lastSeen: _data["lastSeen"],
       email: _data["email"],
       name: _data["name"],
       image: _data["image"],

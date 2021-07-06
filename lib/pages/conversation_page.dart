@@ -16,6 +16,7 @@ import '../services/cloud_storage_service.dart';
 import '../models/conversation.dart';
 import '../models/message.dart';
 
+
 class ConversationPage extends StatefulWidget {
   String _conversationID;
   String _receiverID;
@@ -140,9 +141,9 @@ class _ConversationPageState extends State<ConversationPage> {
           SizedBox(width: _deviceWidth * 0.02),
           _message.type == MessageType.Text
               ? _textMessageBubble(
-                  _isOwnMessage, _message.message, _message.timestamp)
+                  _isOwnMessage, _message.content, _message.timestamp)
               : _imageMessageBubble(
-                  _isOwnMessage, _message.message, _message.timestamp),
+                  _isOwnMessage, _message.content, _message.timestamp),
         ],
       ),
     );
@@ -301,7 +302,7 @@ class _ConversationPageState extends State<ConversationPage> {
               DBService.instance.sendMessage(
                 this.widget._conversationID,
                 Message(
-                    message: _messageText,
+                    content: _messageText,
                     timestamp: Timestamp.now(),
                     senderID: _auth.user.uid,
                     type: MessageType.Text),
@@ -327,7 +328,7 @@ class _ConversationPageState extends State<ConversationPage> {
             await DBService.instance.sendMessage(
               this.widget._conversationID,
               Message(
-                  message: _imageURL,
+                  content: _imageURL,
                   senderID: _auth.user.uid,
                   timestamp: Timestamp.now(),
                   type: MessageType.Image),

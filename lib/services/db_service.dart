@@ -1,7 +1,5 @@
 import 'package:chatify/models/contact.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-
 import '../models/contact.dart';
 import '../models/conversation.dart';
 import '../models/message.dart';
@@ -22,13 +20,24 @@ class DBService {
   String _conversationsCollection = "Conversations";
 
   Future<void> createUserInDB(
-      String _uid, String _name, String _email, String _imageURL,bool _isUser) async {
+      String _uid,
+      String _name,
+      String _email,
+      String _imageURL,
+      bool _isUser,
+      String _age,
+      String _phone,
+      String _address,
+      ) async {
     try {
       return await _db.collection(_userCollection).document(_uid).setData({
         "name": _name,
         "email": _email,
         "image": _imageURL,
         "isUser": _isUser,
+        "age":_age,
+        "phone":_phone,
+        "address": _address,
         "lastSeen": DateTime.now().toUtc(),
       });
     } catch (e) {
@@ -43,9 +52,14 @@ class DBService {
     return _ref.updateData({"lastSeen": Timestamp.now()});
   }
 
+
+
+
   Future<void> sendMessage(String _conversationID, Message _message) {
     var _ref =
-    _db.collection(_conversationsCollection).document(_conversationID);
+    _db
+    .collection(_conversationsCollection)
+    .document(_conversationID);
     var _messageType = "";
     switch (_message.type) {
       case MessageType.Text:
@@ -60,7 +74,7 @@ class DBService {
       "messages": FieldValue.arrayUnion(
         [
           {
-            "message": _message.message,
+            "message": _message.content,
             "senderID": _message.senderID,
             "timestamp": _message.timestamp,
             "type": _messageType,
@@ -70,7 +84,7 @@ class DBService {
     });
   }
 
-  Future<void> createOrGetConversation(String _currentID, String _recepientID,
+  Future<void> createOrGetConversation(String _currentID, String _recipientID,
       Future<void> _onSuccess(String _conversationID)) async {
     var _ref = _db.collection(_conversationsCollection);
     var _userConversationRef = _db
@@ -79,14 +93,14 @@ class DBService {
         .collection(_conversationsCollection);
     try {
       var conversation =
-      await _userConversationRef.document(_recepientID).get();
+      await _userConversationRef.document(_recipientID).get();
       if (conversation.data != null) {
         return _onSuccess(conversation.data["conversationID"]);
       } else {
         var _conversationRef = _ref.document();
         await _conversationRef.setData(
           {
-            "members": [_currentID, _recepientID],
+            "members": [_currentID, _recipientID],
             "ownerID": _currentID,
             'messages': [],
           },
@@ -129,14 +143,6 @@ class DBService {
     });
   }
 
-
-  // Stream<Conversation> getConversation(String _conversationID){
-  //   Firestore.instance
-  //       .collection(_userCollection)
-  //       .document(_conversationID)
-  //       .collection(_conversationsCollection)
-  //       .document()
-  // }
 
   Stream<Conversation> getConversation(String _conversationID) {
     var _ref =
