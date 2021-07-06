@@ -35,6 +35,9 @@ class Contact {
       email: _data["email"],
       name: _data["name"],
       image: _data["image"],
+      age: _data["age"],
+      address: _data["address"],
+      phone: _data["phone"],
       isUser: _data["isUser"],
     );
   }

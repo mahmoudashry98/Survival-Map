@@ -117,7 +117,7 @@ class _SearchPageState extends State<SearchPage> {
                 onTap: () {
                   DBService.instance.createOrGetConversation(
                       _auth.user.uid, _receiverID,
-                          (String _conversationID) {
+                          (String _conversationID) async{
                         NavigationService.instance.navigateToRoute(
                           MaterialPageRoute(builder: (_context) {
                             return ConversationPage(
