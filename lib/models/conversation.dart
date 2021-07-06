@@ -38,7 +38,7 @@ class ConversationSnippet {
     }
     return ConversationSnippet(
       id: _snapshot.documentID,
-      conversationID: _data["conversationID"],
+      conversationID: _data["ConversationID"],
       lastMessage: _data["lastMessage"] != null ? _data["lastMessage"] : "",
       unseenCount: _data["unseenCount"],
       timestamp: _data["timestamp"] != null ? _data["timestamp"] : null,

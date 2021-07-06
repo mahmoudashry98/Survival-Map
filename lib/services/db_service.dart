@@ -95,7 +95,7 @@ class DBService {
       var conversation =
       await _userConversationRef.document(_recipientID).get();
       if (conversation.data != null) {
-        return _onSuccess(conversation.data["conversationID"]);
+        return _onSuccess(conversation.data["ConversationID"]);
       } else {
         var _conversationRef = _ref.document();
         await _conversationRef.setData(
