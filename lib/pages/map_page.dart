@@ -130,7 +130,7 @@ class _GMapState extends State<GMap> {
                   initialCameraPosition: CameraPosition(
                     target: LatLng(applicationBloc.currentLocation.latitude,
                         applicationBloc.currentLocation.longitude),
-                    zoom: 12,
+                    zoom: 15,
                   ),
                   myLocationEnabled: true,
                   scrollGesturesEnabled: true,
