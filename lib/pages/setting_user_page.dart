@@ -52,7 +52,7 @@ class SettingUserPage extends StatelessWidget {
                 ? Align(
                     alignment: Alignment.center,
                     child: SizedBox(
-                      height: 600,
+                      height: _deviceHeight,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         mainAxisSize: MainAxisSize.max,
@@ -60,7 +60,6 @@ class SettingUserPage extends StatelessWidget {
                         children: <Widget>[
                           _userImageWidget(_userData.image),
                           _userNameWidget(_userData.name),
-                          _userEmailWidget(_userData.email),
                           _flatButton(_context),
                           _flatButton2(),
                           _logoutButton(),
@@ -81,8 +80,8 @@ class SettingUserPage extends StatelessWidget {
   Widget _userImageWidget(String _image) {
     double _imageRadius = 100;
     return Container(
-      height: _deviceHeight * 0.2,
-      width: _deviceWidht*0.3,
+      height: 100,
+      width: 100,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(_imageRadius),
         image: DecorationImage(
@@ -105,17 +104,6 @@ class SettingUserPage extends StatelessWidget {
     );
   }
 
-  Widget _userEmailWidget(String _email) {
-    return Container(
-      height: _deviceHeight * 0.1,
-      width: _deviceWidht,
-      child: Text(
-        _email,
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.black, fontSize: 15),
-      ),
-    );
-  }
 
   Widget _flatButton(context) {
     return Container(

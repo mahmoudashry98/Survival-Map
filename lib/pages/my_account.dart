@@ -36,7 +36,7 @@ class _MyAccount extends State<MyAccount> {
         body: SingleChildScrollView(
           child: Column(children: [
             Container(
-              height: _deviceHeight * 0.8,
+              height: _deviceHeight ,
               child: ChangeNotifierProvider<AuthProvider>.value(
                 value: AuthProvider.instance,
                 child: _profilePageUI(),
@@ -70,7 +70,7 @@ class _MyAccount extends State<MyAccount> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   SizedBox(
-                                      //height: _deviceHeight*0.1,
+                                      height: 30,
                                       ),
                                   _userImageWidget(_userData.image),
                                   _userNameWidget(_userData.name),
@@ -104,7 +104,7 @@ class _MyAccount extends State<MyAccount> {
   Widget _userImageWidget(String _image) {
     double _imageRadius = 100;
     return Container(
-      height: _deviceHeight * 0.2,
+      height: 100,
       width: _imageRadius,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(_imageRadius),
