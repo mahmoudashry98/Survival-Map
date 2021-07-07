@@ -82,7 +82,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             children: <Widget>[
               _headingWidget(),
               _inputForm(),
-              _registrationButton(),
+
             ],
           ),
         );
@@ -92,7 +92,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   Widget _headingWidget() {
     return Container(
-      height: _deviceHeight * 0.15,
+      height: _deviceHeight * 0.09,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,7 +115,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   Widget _inputForm() {
     return Container(
-      height: _deviceHeight * 0.55,
+      height: _deviceHeight * 0.65,
       child: Form(
         key: _formkey,
         onChanged: () {
@@ -140,6 +140,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             _emailTextField(),
             _passwordTextField(),
             _confirmPasswordTextField(),
+            _registrationButton(),
             // _backToLoginPageButton()
           ],
         ),
