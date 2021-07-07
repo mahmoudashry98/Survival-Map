@@ -140,6 +140,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
             _emailTextField(),
             _passwordTextField(),
             _confirmPasswordTextField(),
+            SizedBox(
+              height: 30,
+            ),
             _registrationButton(),
             // _backToLoginPageButton()
           ],
