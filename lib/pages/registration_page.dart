@@ -51,7 +51,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                   image: AssetImage("lib/ima/SE4.jpeg"),
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 )),
                 child: Align(
                   alignment: Alignment.center,
@@ -92,7 +92,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   Widget _headingWidget() {
     return Container(
-      height: _deviceHeight * 0.12,
+      height: _deviceHeight * 0.15,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +122,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           _formkey.currentState.save();
         },
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -177,8 +177,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   Widget _nameTextField() {
-    return Center(
-      child: Card(
+    return Container(
+      // child: Card(
         margin: EdgeInsets.all(5),
         color: Color.fromRGBO(208, 211, 212, 1),
         child: TextFormField(
@@ -202,7 +202,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ),
           ),
         ),
-      ),
+      //),
     );
   }
 
@@ -251,7 +251,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             style: TextStyle(color: Colors.black),
             validator: (_input) {
               if (_input.isEmpty) {
-                return 'Password cannot be empty';
+                return 'Please enter Password';
               } else if (_input.length < 6) {
                 return 'Password must be at least 6 characters long.';
               }
@@ -328,14 +328,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
             ),
           )),
-      Checkbox(
-          value: _isUser,
-          onChanged: (bool value) {
-            print(value);
-            setState(() {
-              _isUser = value;
-            });
-          })
+      // Checkbox(
+      //     value: _isUser,
+      //     onChanged: (bool value) {
+      //       print(value);
+      //       setState(() {
+      //         _isUser = value;
+      //       });
+      //     })
     ]);
   }
 

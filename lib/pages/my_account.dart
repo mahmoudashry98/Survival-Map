@@ -16,6 +16,7 @@ class _MyAccount extends State<MyAccount> {
   AuthProvider _auth;
   double _deviceHeight;
   double _deviceWidht;
+
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
@@ -35,81 +36,75 @@ class _MyAccount extends State<MyAccount> {
         body: SingleChildScrollView(
           child: Column(children: [
             Container(
-              height: _deviceHeight*0.6 ,
+              height: _deviceHeight * 0.8,
               child: ChangeNotifierProvider<AuthProvider>.value(
                 value: AuthProvider.instance,
                 child: _profilePageUI(),
               ),
             ),
-          ]
-          ),
-        )
-    );
+          ]),
+        ));
   }
 
   Widget _profilePageUI() {
-    return Column(
-        children:<Widget>[
-          Container(
-
-              padding: EdgeInsets.symmetric(horizontal: _deviceWidht * 0.12),
-               alignment: Alignment.center,
-
-              child:SingleChildScrollView(
-                child:Builder(
-                  builder: (BuildContext _context) {
-                    _auth = Provider.of<AuthProvider>(_context);
-                    return StreamBuilder<Contact>(
-                      stream: DBService.instance.getUserData(_auth.user.uid),
-                      builder: (_context, _snapshot) {
-                        var _userData = _snapshot.data;
-                        return _snapshot.hasData
-                            ? Align(
-                          alignment: Alignment.center,
-                          child: SizedBox(
-                            //height:_deviceHeight,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                SizedBox(
-                                  //height: _deviceHeight*0.1,
-                                ),
-                                _userImageWidget(_userData.image),
-                                _userNameWidget(_userData.name),
-                                buildTextField("Full Name", _userData.name, false),
-                                buildTextField("E-mail", _userData.email, false),
-                                buildTextField("Password", "********", true),
-                                SizedBox(
-                                  width: _deviceWidht,
-                                ),
-                                _button(),
-                              ],
-
+    return Column(children: <Widget>[
+      Container(
+          padding: EdgeInsets.symmetric(horizontal: _deviceWidht * 0.12),
+          alignment: Alignment.center,
+          child: SingleChildScrollView(
+            child: Builder(
+              builder: (BuildContext _context) {
+                _auth = Provider.of<AuthProvider>(_context);
+                return StreamBuilder<Contact>(
+                  stream: DBService.instance.getUserData(_auth.user.uid),
+                  builder: (_context, _snapshot) {
+                    var _userData = _snapshot.data;
+                    return _snapshot.hasData
+                        ? Align(
+                            alignment: Alignment.center,
+                            child: SizedBox(
+                              //height:_deviceHeight,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  SizedBox(
+                                      //height: _deviceHeight*0.1,
+                                      ),
+                                  _userImageWidget(_userData.image),
+                                  _userNameWidget(_userData.name),
+                                  buildTextField(
+                                      "Full Name", _userData.name, false),
+                                  buildTextField(
+                                      "E-mail", _userData.email, false),
+                                  buildTextField("Password", "********", true),
+                                  buildTextField("NewPassword", "********", true),
+                                  buildTextField("Repeat Password", "********", true),
+                                  SizedBox(
+                                    width: _deviceWidht,
+                                  ),
+                                  _button(),
+                                ],
+                              ),
                             ),
-                          ),
-                        )
-                            : SpinKitWanderingCubes(
-                          color: Colors.blue,
-                          size: 50.0,
-                        );
-                      },
-                    );
+                          )
+                        : SpinKitWanderingCubes(
+                            color: Colors.blue,
+                            size: 50.0,
+                          );
                   },
-                ),
-              )
-          )
-        ]
-
-    );
-
+                );
+              },
+            ),
+          ))
+    ]);
   }
 
   Widget _userImageWidget(String _image) {
     double _imageRadius = 100;
     return Container(
-      height: _deviceHeight*0.2,
+      height: _deviceHeight * 0.2,
       width: _imageRadius,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(_imageRadius),
@@ -123,7 +118,7 @@ class _MyAccount extends State<MyAccount> {
 
   Widget _userNameWidget(String _userName) {
     return Container(
-      height: _deviceHeight*0.1,
+      height: _deviceHeight * 0.1,
       width: _deviceWidht,
       child: Text(
         _userName,
@@ -132,34 +127,31 @@ class _MyAccount extends State<MyAccount> {
       ),
     );
   }
+
   Widget _button() {
-    return
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          MaterialButton(
-            shape: StadiumBorder(),
-            minWidth: 100,
-            color: Colors.white12,
-            child: new Text("CANCEL"),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          MaterialButton(
-            shape: StadiumBorder(),
-            minWidth: 100,
-            color: Colors.blue,
-            child: new Text("SAVE"),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-
-
-
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        MaterialButton(
+          shape: StadiumBorder(),
+          minWidth: 100,
+          color: Colors.white12,
+          child: new Text("CANCEL"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        MaterialButton(
+          shape: StadiumBorder(),
+          minWidth: 100,
+          color: Colors.blue,
+          child: new Text("SAVE"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
   }
 
   Widget buildTextField(
@@ -171,16 +163,16 @@ class _MyAccount extends State<MyAccount> {
         decoration: InputDecoration(
             suffixIcon: isPasswordTextField
                 ? IconButton(
-              onPressed: () {
-                setState(() {
-                  showPassword = !showPassword;
-                });
-              },
-              icon: Icon(
-                Icons.remove_red_eye,
-                color: Colors.grey,
-              ),
-            )
+                    onPressed: () {
+                      setState(() {
+                        showPassword = !showPassword;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.remove_red_eye,
+                      color: Colors.grey,
+                    ),
+                  )
                 : null,
             contentPadding: EdgeInsets.only(bottom: 3),
             labelText: labelText,
@@ -194,5 +186,4 @@ class _MyAccount extends State<MyAccount> {
       ),
     );
   }
-
 }

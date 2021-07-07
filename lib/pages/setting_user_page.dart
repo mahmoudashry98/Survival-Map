@@ -8,10 +8,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 class SettingUserPage extends StatelessWidget {
   AuthProvider _auth;
-  double _width;
+  double _deviceHeight;
+  double _deviceWidht;
 
   @override
   Widget build(BuildContext context) {
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidht = MediaQuery.of(context).size.width;
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
@@ -23,14 +27,17 @@ class SettingUserPage extends StatelessWidget {
           ),
           centerTitle: true,
         ),
-        body: Column(children: [
-          Container(
-            child: ChangeNotifierProvider<AuthProvider>.value(
-              value: AuthProvider.instance,
-              child: _profilePageUI(),
+        body: SingleChildScrollView(
+          child: Column(children: [
+            Container(
+              height: _deviceHeight*0.7,
+              child: ChangeNotifierProvider<AuthProvider>.value(
+                value: AuthProvider.instance,
+                child: _profilePageUI(),
+              ),
             ),
-          ),
-        ]));
+          ]),
+        ));
   }
 
   Widget _profilePageUI() {
@@ -74,8 +81,8 @@ class SettingUserPage extends StatelessWidget {
   Widget _userImageWidget(String _image) {
     double _imageRadius = 100;
     return Container(
-      height: _imageRadius,
-      width: _imageRadius,
+      height: _deviceHeight * 0.2,
+      width: _deviceWidht*0.3,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(_imageRadius),
         image: DecorationImage(
@@ -88,8 +95,8 @@ class SettingUserPage extends StatelessWidget {
 
   Widget _userNameWidget(String _userName) {
     return Container(
-      height: 50,
-      width: _width,
+      height: _deviceHeight * 0.1,
+      width: _deviceWidht,
       child: Text(
         _userName,
         textAlign: TextAlign.center,
@@ -100,8 +107,8 @@ class SettingUserPage extends StatelessWidget {
 
   Widget _userEmailWidget(String _email) {
     return Container(
-      height: 50,
-      width: _width,
+      height: _deviceHeight * 0.1,
+      width: _deviceWidht,
       child: Text(
         _email,
         textAlign: TextAlign.center,
@@ -112,8 +119,8 @@ class SettingUserPage extends StatelessWidget {
 
   Widget _flatButton(context) {
     return Container(
-      height: 90,
-      width: 300,
+      height: _deviceHeight * 0.1,
+      width: _deviceWidht,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: FlatButton(
@@ -139,8 +146,8 @@ class SettingUserPage extends StatelessWidget {
 
   Widget _flatButton2() {
     return Container(
-      height: 90,
-      width: 300,
+      height: _deviceHeight * 0.1,
+      width: _deviceWidht,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: FlatButton(
@@ -167,8 +174,8 @@ class SettingUserPage extends StatelessWidget {
 
   Widget _logoutButton() {
     return Container(
-      height: 90,
-      width: 300,
+      height: _deviceHeight * 0.1,
+      width: _deviceWidht,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: FlatButton(

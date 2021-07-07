@@ -33,8 +33,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
+        child:
             Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
@@ -49,8 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-          ],
-        ),
+
       ),
     );
   }
@@ -61,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
         SnackBarService.instance.buildContext = _context;
         _auth = Provider.of<AuthProvider>(_context);
         return Container(
-          height: _deviceHeight * 1.0,
+          height: _deviceHeight *1.0,
           padding: EdgeInsets.symmetric(horizontal: _deviceWidht * 0.12),
           alignment: Alignment.center,
           child: Column(
@@ -223,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.grey,
                     fontSize: 15,
                     fontWeight: FontWeight.w400),
-                textAlign: TextAlign.end,
+                textAlign: TextAlign.center,
               )),
         ),
       ],
@@ -262,49 +260,31 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _registerButton() {
-    return GestureDetector(
-      onTap: () {
-        NavigationService.instance.navigateTo("register");
-      },
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 58),
-            height: _deviceHeight * 0.05,
-            child: Text(
-              "You Don’t Have An Account ?",
-              style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.blue),
-            ),
-          ),
-          Container(
-            height: _deviceHeight * 0.20,
-            child: Text(
-              "REGISTER",
-              textAlign: TextAlign.end,
-              style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.blue),
-            ),
-          ),
-        ],
+    return Column(children: [
+      Container(
+        padding: EdgeInsets.symmetric(horizontal: 58),
+        height: _deviceHeight * 0.05,
+        child: Text(
+          "You Don’t Have An Account ?",
+          style: TextStyle(
+              fontSize: 15, fontWeight: FontWeight.w600, color: Colors.grey),
+        ),
       ),
-    );
+      GestureDetector(
+        onTap: () {
+          NavigationService.instance.navigateTo("register");
+        },
+        child: Container(
+          height: _deviceHeight * 0.20,
+          child: Text(
+            "REGISTER",
+            textAlign: TextAlign.end,
+            style: TextStyle(
+                fontSize: 17, fontWeight: FontWeight.w700, color: Colors.blue),
+          ),
+        ),
+      ),
+    ]);
   }
 
-  Widget _border() {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.grey[300],
-          borderRadius: BorderRadiusDirectional.only(
-            bottomEnd: Radius.circular(10.0),
-            topStart: Radius.circular(10.0),
-            topEnd: Radius.circular(10.0),
-          )),
-      padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 25.0),
-    );
-  }
 }

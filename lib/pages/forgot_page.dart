@@ -16,8 +16,9 @@ class _ResetPasswordState extends State<ResetPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login"),
+        title: Text("Reset Password"),
         centerTitle: true,
+        backgroundColor: Colors.blue,
       ),
       body: Center(
           child: SingleChildScrollView(
@@ -36,9 +37,9 @@ class _ResetPasswordState extends State<ResetPassword> {
               TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (e) => _email = e,
-                validator: (e) => e.isEmpty ? "Champ vide" : null,
+                validator: (e) => e.isEmpty ? "Please enter your email" : null,
                 decoration: InputDecoration(
-                    hintText: "Entrer votre email", labelText: "Email"),
+                    hintText: "Enter your email", labelText: "Email"),
               ),
               SizedBox(
                 height: 10,
