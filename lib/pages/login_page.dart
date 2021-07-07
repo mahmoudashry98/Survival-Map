@@ -262,7 +262,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _registerButton() {
     return Column(children: [
       Container(
-        padding: EdgeInsets.symmetric(horizontal: 58),
+        // padding: EdgeInsets.symmetric(horizontal: 45),
         height: _deviceHeight * 0.05,
         child: Text(
           "You Don’t Have An Account ?",
