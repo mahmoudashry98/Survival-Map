@@ -126,6 +126,7 @@ class _LoginPageState extends State<LoginPage> {
             )),
             _emailTextField(),
             _PasswordTextField(),
+            _restPassword()
           ],
         ),
       ),
@@ -208,23 +209,27 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ),
-        Container(
-          width: double.infinity,
-          child: InkWell(
-              onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (ctx) => ResetPassword()));
-              },
-              child: Text(
-                "Forgot password ? ",
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400),
-                textAlign: TextAlign.center,
-              )),
-        ),
+
       ],
+    );
+  }
+
+  Widget _restPassword(){
+    return Container(
+      width: double.infinity,
+      child: InkWell(
+          onTap: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (ctx) => ResetPassword()));
+          },
+          child: Text(
+            "Forgot password ? ",
+            style: TextStyle(
+                color: Colors.grey,
+                fontSize: 15,
+                fontWeight: FontWeight.w400),
+            textAlign: TextAlign.right,
+          )),
     );
   }
 
