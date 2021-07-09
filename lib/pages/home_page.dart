@@ -4,7 +4,6 @@ import 'package:chatify/pages/map_page.dart';
 import 'package:chatify/models/contact.dart';
 import 'package:chatify/pages/setting_user_page.dart';
 
-
 class HomePage extends StatefulWidget {
   @override
   _NavState createState() => _NavState();
@@ -31,7 +30,8 @@ class _NavState extends State<HomePage> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.white12,
+        buttonBackgroundColor: Colors.white,
         items: <Widget>[
           Icon(Icons.location_on_outlined, size: 30),
           Icon(Icons.chat_outlined, size: 30),
