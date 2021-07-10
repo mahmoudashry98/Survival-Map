@@ -33,22 +33,20 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: SingleChildScrollView(
-        child:
-            Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                image: AssetImage("lib/ima/SC4.jpeg"),
-                fit: BoxFit.fill,
-              )),
-              child: Align(
-                alignment: Alignment.center,
-                child: ChangeNotifierProvider<AuthProvider>.value(
-                  value: AuthProvider.instance,
-                  child: _loginPageUI(),
-                ),
-              ),
+        child: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+            image: AssetImage("lib/ima/SC4.jpeg"),
+            fit: BoxFit.fill,
+          )),
+          child: Align(
+            alignment: Alignment.center,
+            child: ChangeNotifierProvider<AuthProvider>.value(
+              value: AuthProvider.instance,
+              child: _loginPageUI(),
             ),
-
+          ),
+        ),
       ),
     );
   }
@@ -59,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
         SnackBarService.instance.buildContext = _context;
         _auth = Provider.of<AuthProvider>(_context);
         return Container(
-          height: _deviceHeight *1.0,
+          height: _deviceHeight * 1.0,
           padding: EdgeInsets.symmetric(horizontal: _deviceWidht * 0.12),
           alignment: Alignment.center,
           child: Column(
@@ -69,7 +67,6 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               _headingWidget(),
               _inputForm(),
-              _loginButton(),
               _registerButton(),
             ],
           ),
@@ -103,31 +100,39 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _inputForm() {
     return Container(
-      height: _deviceHeight * 0.30,
+      height: _deviceHeight * 0.40,
       width: _deviceWidht * 0.80,
       child: Form(
         key: _formkey,
         onChanged: () {
           _formkey.currentState.save();
         },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-                child: Text(
-              "Login..",
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w900,
-                color: Colors.blue,
-              ),
-            )),
-            _emailTextField(),
-            _PasswordTextField(),
-            _restPassword()
-          ],
+        child: Card(
+          color: Colors.white70,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                  margin: EdgeInsets.only(top: 20),
+                  height: _deviceHeight * 0.04,
+                  child: Text(
+                    "Login..",
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.blue,
+                    ),
+                  )),
+              _emailTextField(),
+              _PasswordTextField(),
+              _restPassword(),
+              _loginButton(),
+            ],
+          ),
         ),
       ),
     );
@@ -136,8 +141,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget _emailTextField() {
     return Center(
       child: Card(
-          margin: EdgeInsets.all(18),
-          color: Color.fromRGBO(208, 211, 212, 1),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+          color: Colors.white,
           child: TextFormField(
             autocorrect: false,
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
@@ -154,9 +161,9 @@ class _LoginPageState extends State<LoginPage> {
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
               hintText: "Email Address...",
-              hintStyle: TextStyle(fontSize: 20, color: Colors.white),
+              hintStyle: TextStyle(fontSize: 20, color: Colors.black38),
               prefixIcon: Icon(
-                Icons.account_circle_rounded,
+                Icons.email_outlined,
                 color: Colors.black,
               ),
             ),
@@ -166,57 +173,50 @@ class _LoginPageState extends State<LoginPage> {
 
   // ignore: non_constant_identifier_names
   Widget _PasswordTextField() {
-    return Column(
-      children: [
-        Center(
-          child: Card(
-            margin: EdgeInsets.all(15),
-            color: Color.fromRGBO(208, 211, 212, 1),
-            child: TextFormField(
-              autocorrect: false,
-              obscureText: passwordVisible,
-              style: TextStyle(color: Colors.black),
-              // ignore: missing_return
-              validator: (_input) {
-                return _input.length != 0 ? null : "Please enter a password";
-              },
-              onSaved: (_input) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      margin: EdgeInsets.only(left: 10, right: 10),
+      color: Colors.white,
+      child: TextFormField(
+        autocorrect: false,
+        obscureText: passwordVisible,
+        style: TextStyle(color: Colors.black),
+        // ignore: missing_return
+        validator: (_input) {
+          return _input.length != 0 ? null : "Please enter a password";
+        },
+        onSaved: (_input) {
+          setState(() {
+            _password = _input;
+          });
+        },
+        cursorColor: Colors.white,
+        decoration: InputDecoration(
+            hintText: "Password...",
+            hintStyle: TextStyle(
+              fontSize: 20,
+              color: Colors.black38,
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(
+                  passwordVisible ? Icons.visibility : Icons.visibility_off),
+              onPressed: () {
                 setState(() {
-                  _password = _input;
+                  passwordVisible = !passwordVisible;
                 });
               },
-              cursorColor: Colors.white,
-              decoration: InputDecoration(
-                  hintText: "Password...",
-                  hintStyle: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(passwordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off),
-                    onPressed: () {
-                      setState(() {
-                        passwordVisible = !passwordVisible;
-                      });
-                    },
-                  ),
-                  prefixIcon: Icon(
-                    Icons.lock,
-                    color: Colors.black,
-                  )),
             ),
-          ),
-        ),
-
-      ],
+            prefixIcon: Icon(
+              Icons.lock_outline_rounded,
+              color: Colors.black,
+            )),
+      ),
     );
   }
 
-  Widget _restPassword(){
+  Widget _restPassword() {
     return Container(
-      width: double.infinity,
+      margin: EdgeInsets.only(left: 120),
       child: InkWell(
           onTap: () {
             Navigator.of(context)
@@ -225,9 +225,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Text(
             "Forgot password ? ",
             style: TextStyle(
-                color: Colors.grey,
-                fontSize: 15,
-                fontWeight: FontWeight.w400),
+                color: Colors.grey, fontSize: 15, fontWeight: FontWeight.w400),
             textAlign: TextAlign.right,
           )),
     );
@@ -240,6 +238,7 @@ class _LoginPageState extends State<LoginPage> {
             child: CircularProgressIndicator(),
           )
         : Container(
+            margin: EdgeInsets.only(left: 10, right: 10, bottom: 20),
             padding: EdgeInsets.symmetric(horizontal: 90),
             height: _deviceHeight * 0.06,
             width: _deviceWidht,
@@ -254,8 +253,7 @@ class _LoginPageState extends State<LoginPage> {
               },
               color: Colors.white,
               child: Text(
-                "Sign In"
-                "",
+                "Sign In",
                 style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w700,
@@ -291,5 +289,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     ]);
   }
-
 }

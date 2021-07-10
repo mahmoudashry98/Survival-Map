@@ -76,7 +76,7 @@ class _MyAppState extends State<MyApp> {
     return ChangeNotifierProvider(
         create: (context) => ApplicationBloc(),
         child: MaterialApp(
-          title: 'Chatify',
+          title: '  ',
           navigatorKey: NavigationService.instance.navigatorKey,
           debugShowCheckedModeBanner: false,
           theme: ThemeData(

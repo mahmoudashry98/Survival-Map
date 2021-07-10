@@ -71,7 +71,7 @@ class _SearchPageState extends State<SearchPage> {
       padding: EdgeInsets.all(10.0),
       child: TextField(
         autocorrect: false,
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.black),
         onSubmitted: (_input) {
           setState(() {
             _searchText = _input;

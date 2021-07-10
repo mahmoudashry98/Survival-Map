@@ -82,7 +82,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
             children: <Widget>[
               _headingWidget(),
               _inputForm(),
-
             ],
           ),
         );
@@ -115,7 +114,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   Widget _inputForm() {
     return Container(
-      height: _deviceHeight * 0.65,
+      height: _deviceHeight * 0.80,
       child: Form(
         key: _formkey,
         onChanged: () {
@@ -132,18 +131,27 @@ class _RegistrationPageState extends State<RegistrationPage> {
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w900,
-                color: Colors.blue,
+                color: Colors.white,
               ),
             )),
             _imageSelectorWidget(),
-            _nameTextField(),
-            _emailTextField(),
-            _passwordTextField(),
-            _confirmPasswordTextField(),
-            SizedBox(
-              height: 30,
-            ),
-            _registrationButton(),
+            Card(
+                color: Colors.white70,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)),
+                child: Column(children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  _nameTextField(),
+                  _emailTextField(),
+                  _passwordTextField(),
+                  _confirmPasswordTextField(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _registrationButton()
+                ]))
             // _backToLoginPageButton()
           ],
         ),
@@ -168,7 +176,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             color: Colors.transparent,
             borderRadius: BorderRadius.circular(500),
             image: DecorationImage(
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
               image: _image != null
                   ? FileImage(_image)
                   : NetworkImage(
@@ -181,31 +189,32 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   Widget _nameTextField() {
-    return Container(
-      // child: Card(
-        margin: EdgeInsets.all(5),
-        color: Color.fromRGBO(208, 211, 212, 1),
-        child: TextFormField(
-          autocorrect: false,
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-          validator: (_input) {
-            return _input.length != 0 ? null : "Please enter a name";
-          },
-          onSaved: (_input) {
-            setState(() {
-              _name = _input;
-            });
-          },
-          cursorColor: Colors.white,
-          decoration: InputDecoration(
-            hintText: "Full Name...",
-            hintStyle: TextStyle(fontSize: 20, color: Colors.white),
-            prefixIcon: Icon(
-              Icons.account_circle_rounded,
-              color: Colors.black,
-            ),
+    return Card(
+      shape:
+      RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+      color: Colors.white,
+      child: TextFormField(
+        autocorrect: false,
+        style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+        validator: (_input) {
+          return _input.length != 0 ? null : "Please enter a name";
+        },
+        onSaved: (_input) {
+          setState(() {
+            _name = _input;
+          });
+        },
+        cursorColor: Colors.white,
+        decoration: InputDecoration(
+          hintText: "Full Name...",
+          hintStyle: TextStyle(fontSize: 20, color: Colors.black38),
+          prefixIcon: Icon(
+            Icons.person_rounded,
+            color: Colors.black,
           ),
         ),
+      ),
       //),
     );
   }
@@ -213,8 +222,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget _emailTextField() {
     return Center(
       child: Card(
-        margin: EdgeInsets.all(5),
-        color: Color.fromRGBO(208, 211, 212, 1),
+        shape:
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+        color: Colors.white,
         child: TextFormField(
           autocorrect: false,
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
@@ -232,9 +243,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             hintText: "Email...",
-            hintStyle: TextStyle(fontSize: 20, color: Colors.white),
+            hintStyle: TextStyle(fontSize: 20, color: Colors.black38),
             prefixIcon: Icon(
-              Icons.mail,
+              Icons.email_outlined,
               color: Colors.black,
             ),
           ),
@@ -246,8 +257,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget _passwordTextField() {
     return Center(
       child: Card(
-          margin: EdgeInsets.all(5),
-          color: Color.fromRGBO(208, 211, 212, 1),
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+          color: Colors.white,
           child: TextFormField(
             controller: password,
             autocorrect: false,
@@ -270,7 +283,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             cursorColor: Colors.white,
             decoration: InputDecoration(
               hintText: "Password...",
-              hintStyle: TextStyle(fontSize: 20, color: Colors.white),
+              hintStyle: TextStyle(fontSize: 20, color: Colors.black38),
               suffixIcon: IconButton(
                 icon: Icon(
                     passwordVisible ? Icons.visibility : Icons.visibility_off),
@@ -281,7 +294,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 },
               ),
               prefixIcon: Icon(
-                Icons.lock,
+                Icons.lock_outline_rounded,
                 color: Colors.black,
               ),
             ),
@@ -292,8 +305,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget _confirmPasswordTextField() {
     return Column(children: <Widget>[
       Card(
-          margin: EdgeInsets.all(5),
-          color: Color.fromRGBO(208, 211, 212, 1),
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+          color: Colors.white,
           child: TextFormField(
             controller: _confirmPassword,
             autocorrect: false,
@@ -316,7 +331,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             cursorColor: Colors.white,
             decoration: InputDecoration(
               hintText: "Confirm Password...",
-              hintStyle: TextStyle(fontSize: 20, color: Colors.white),
+              hintStyle: TextStyle(fontSize: 20, color: Colors.black38),
               suffixIcon: IconButton(
                 icon: Icon(
                     passwordVisible ? Icons.visibility : Icons.visibility_off),
@@ -327,7 +342,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 },
               ),
               prefixIcon: Icon(
-                Icons.lock,
+                Icons.lock_outline_rounded,
                 color: Colors.black,
               ),
             ),
@@ -346,7 +361,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget _registrationButton() {
     return _auth.status != AuthStatus.Authenticating
         ? Container(
-            padding: EdgeInsets.symmetric(horizontal: 90),
+            margin: EdgeInsets.only(left: 10, right: 10, bottom: 20),
+            padding: EdgeInsets.symmetric(horizontal: 70),
             height: _deviceHeight * 0.06,
             width: _deviceWidth,
             child: MaterialButton(

@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -17,6 +15,7 @@ import '../models/conversation.dart';
 import '../models/message.dart';
 
 
+// ignore: must_be_immutable
 class ConversationPage extends StatefulWidget {
   String _conversationID;
   String _receiverID;
@@ -27,6 +26,7 @@ class ConversationPage extends StatefulWidget {
       this._receiverImage);
 
   @override
+
   State<StatefulWidget> createState() {
     return _ConversationPageState();
   }
@@ -49,6 +49,7 @@ class _ConversationPageState extends State<ConversationPage> {
   }
 
   @override
+
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
