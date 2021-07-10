@@ -30,7 +30,7 @@ class _NavState extends State<HomePage> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.white12,
+        backgroundColor: Colors.blue,
         buttonBackgroundColor: Colors.white,
         items: <Widget>[
           Icon(Icons.location_on_outlined, size: 30),
