@@ -14,7 +14,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool passwordVisible = true;
   double _deviceHeight;
-  double _deviceWidht;
+  double _deviceWidth;
 
   GlobalKey<FormState> _formkey;
   AuthProvider _auth;
@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
-    _deviceWidht = MediaQuery.of(context).size.width;
+    _deviceWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
         _auth = Provider.of<AuthProvider>(_context);
         return Container(
           height: _deviceHeight * 1.0,
-          padding: EdgeInsets.symmetric(horizontal: _deviceWidht * 0.12),
+          padding: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.12),
           alignment: Alignment.center,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _inputForm() {
     return Container(
       height: _deviceHeight * 0.40,
-      width: _deviceWidht * 0.80,
+      width: _deviceWidth * 0.80,
       child: Form(
         key: _formkey,
         onChanged: () {
@@ -241,7 +241,7 @@ class _LoginPageState extends State<LoginPage> {
             margin: EdgeInsets.only(left: 10, right: 10, bottom: 20),
             padding: EdgeInsets.symmetric(horizontal: 90),
             height: _deviceHeight * 0.06,
-            width: _deviceWidht,
+            width: _deviceWidth,
             child: MaterialButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),

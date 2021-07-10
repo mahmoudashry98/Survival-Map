@@ -73,6 +73,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         _auth = Provider.of<AuthProvider>(_context);
         return Container(
           height: _deviceHeight * 1.0,
+          width: _deviceWidth*2.0,
           padding: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.15),
           alignment: Alignment.center,
           child: Column(
@@ -115,6 +116,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget _inputForm() {
     return Container(
       height: _deviceHeight * 0.80,
+      width: _deviceWidth*1.9,
       child: Form(
         key: _formkey,
         onChanged: () {
@@ -142,6 +144,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 child: Column(children: [
                   SizedBox(
                     height: 20,
+
                   ),
                   _nameTextField(),
                   _emailTextField(),
@@ -149,6 +152,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   _confirmPasswordTextField(),
                   SizedBox(
                     height: 15,
+
                   ),
                   _registrationButton()
                 ]))
