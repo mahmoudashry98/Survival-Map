@@ -83,6 +83,7 @@ class _LoginPageState extends State<LoginPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
+          SizedBox( height:20),
           Text(
             "   Welcome,",
             style: TextStyle(
@@ -108,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
           _formkey.currentState.save();
         },
         child: Card(
-          color: Colors.white70,
+          color: Color.fromRGBO(232, 241, 249, 1.0),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           child: Column(
@@ -163,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
               hintText: "Email Address...",
               hintStyle: TextStyle(fontSize: 20, color: Colors.black38),
               prefixIcon: Icon(
-                Icons.email_outlined,
+                Icons.email,
                 color: Colors.black,
               ),
             ),
@@ -207,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
               },
             ),
             prefixIcon: Icon(
-              Icons.lock_outline_rounded,
+              Icons.lock,
               color: Colors.black,
             )),
       ),

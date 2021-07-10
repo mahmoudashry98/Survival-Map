@@ -73,7 +73,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         _auth = Provider.of<AuthProvider>(_context);
         return Container(
           height: _deviceHeight * 1.0,
-          width: _deviceWidth*2.0,
+          width: _deviceWidth * 2.0,
           padding: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.15),
           alignment: Alignment.center,
           child: Column(
@@ -81,6 +81,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              SizedBox( height:0),
               _headingWidget(),
               _inputForm(),
             ],
@@ -98,6 +99,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
+
           Text(
             "      Welcome,",
             style: TextStyle(
@@ -116,7 +118,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget _inputForm() {
     return Container(
       height: _deviceHeight * 0.80,
-      width: _deviceWidth*1.9,
+      width: _deviceWidth * 1.9,
       child: Form(
         key: _formkey,
         onChanged: () {
@@ -138,13 +140,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
             )),
             _imageSelectorWidget(),
             Card(
-                color: Colors.white70,
+                color: Color.fromRGBO(232, 241, 249, 1.0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
                 child: Column(children: [
                   SizedBox(
                     height: 20,
-
                   ),
                   _nameTextField(),
                   _emailTextField(),
@@ -152,7 +153,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   _confirmPasswordTextField(),
                   SizedBox(
                     height: 15,
-
                   ),
                   _registrationButton()
                 ]))
@@ -194,8 +194,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   Widget _nameTextField() {
     return Card(
-      shape:
-      RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       margin: EdgeInsets.only(top: 10, left: 10, right: 10),
       color: Colors.white,
       child: TextFormField(
@@ -226,8 +225,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget _emailTextField() {
     return Center(
       child: Card(
-        shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         margin: EdgeInsets.only(top: 10, left: 10, right: 10),
         color: Colors.white,
         child: TextFormField(
@@ -249,7 +247,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             hintText: "Email...",
             hintStyle: TextStyle(fontSize: 20, color: Colors.black38),
             prefixIcon: Icon(
-              Icons.email_outlined,
+              Icons.email,
               color: Colors.black,
             ),
           ),
@@ -262,7 +260,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Center(
       child: Card(
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           margin: EdgeInsets.only(top: 10, left: 10, right: 10),
           color: Colors.white,
           child: TextFormField(
@@ -298,7 +296,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 },
               ),
               prefixIcon: Icon(
-                Icons.lock_outline_rounded,
+                Icons.lock,
                 color: Colors.black,
               ),
             ),
@@ -310,7 +308,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Column(children: <Widget>[
       Card(
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           margin: EdgeInsets.only(top: 10, left: 10, right: 10),
           color: Colors.white,
           child: TextFormField(
@@ -346,7 +344,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 },
               ),
               prefixIcon: Icon(
-                Icons.lock_outline_rounded,
+                Icons.lock,
                 color: Colors.black,
               ),
             ),
