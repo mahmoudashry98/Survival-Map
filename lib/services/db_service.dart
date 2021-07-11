@@ -45,8 +45,13 @@ class DBService {
     }
   }
 
-  Future updateUserList(String _uid,String _name,String _imageURL) async{
-    return await _db.collection(_userCollection).document(_uid).updateData({"name": _name, "image": _imageURL,});
+  Future updateUserList_name(String _uid,String _name) async{
+    return await _db.collection(_userCollection).document(_uid).updateData({"name": _name,});
+
+  }
+
+  Future updateUserList_image(String _uid,String _imageURL) async{
+    return await _db.collection(_userCollection).document(_uid).updateData({ "image": _imageURL,});
 
   }
 

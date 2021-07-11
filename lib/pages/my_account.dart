@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:chatify/models/contact.dart';
 import 'package:chatify/providers/auth_provider.dart';
 import 'package:chatify/services/db_service.dart';
+import 'package:chatify/services/media_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -15,46 +18,47 @@ class _MyAccount extends State<MyAccount> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _imageController = TextEditingController();
 
-
-
-
-
   bool showPassword = false;
 
   List userProfileList = [];
 
-  String userID ="";
+  String userID = "";
 
   String _searchText;
   AuthProvider _auth;
   double _deviceHeight;
   double _deviceWidht;
 
-
-
-
-  void initState(){
+  void initState() {
     super.initState();
     fetchUserInfo();
   }
-  fetchDatabaseList()async{
-    dynamic resultant =await DBService.instance.getUsersInDB(_searchText);
-    if (resultant == null){
+
+  fetchDatabaseList() async {
+    dynamic resultant = await DBService.instance.getUsersInDB(_searchText);
+    if (resultant == null) {
       print("Unable to retrive");
       setState(() {
-        userProfileList =resultant;
+        userProfileList = resultant;
       });
     }
   }
-  fetchUserInfo() async{
+
+  fetchUserInfo() async {
     FirebaseUser getUser = await FirebaseAuth.instance.currentUser();
-    userID =getUser.uid;
+    userID = getUser.uid;
   }
 
-  updateData(String _name, String _imageURL) async{
-    await DBService.instance.updateUserList(userID, _name, _imageURL);
+  updateData_name(String _name) async {
+    await DBService.instance.updateUserList_name(userID, _name);
     fetchDatabaseList();
   }
+
+  updateData_image(String _image) async {
+    await DBService.instance.updateUserList_name(userID, _image);
+    fetchDatabaseList();
+  }
+
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
@@ -74,7 +78,7 @@ class _MyAccount extends State<MyAccount> {
         body: SingleChildScrollView(
           child: Column(children: [
             Container(
-              height: _deviceHeight ,
+              height: _deviceHeight,
               child: ChangeNotifierProvider<AuthProvider>.value(
                 value: AuthProvider.instance,
                 child: _profilePageUI(),
@@ -108,19 +112,40 @@ class _MyAccount extends State<MyAccount> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   SizedBox(
-                                      height: 30,
-                                      ),
+                                    height: 30,
+                                  ),
                                   _userImageWidget(_userData.image),
                                   _userNameWidget(_userData.name),
                                   TextField(
                                     controller: _nameController,
-                                    decoration: InputDecoration(hintText: 'Name'),
+                                    decoration: InputDecoration(
+                                        labelText: "Name",
+                                        hintText: _userData.name,
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.always,
+                                        hintStyle: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        )),
                                   ),
-                                  buildTextField(
-                                      "E-mail", _userData.email, false),
-
                                   SizedBox(
-                                    width: _deviceWidht,
+                                    height: 10,
+                                  ),
+                                  TextField(
+                                    decoration: InputDecoration(
+                                        labelText: "E-mail",
+                                        hintText: _userData.email,
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.always,
+                                        hintStyle: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        )),
+                                  ),
+                                  SizedBox(
+                                    height: 50,
                                   ),
                                   _button(),
                                 ],
@@ -141,15 +166,47 @@ class _MyAccount extends State<MyAccount> {
 
   Widget _userImageWidget(String _image) {
     double _imageRadius = 100;
-    return Container(
-      height: 100,
-      width: _imageRadius,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(_imageRadius),
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: NetworkImage(_image),
-        ),
+    return Center(
+      child: Stack(
+        children: [
+          Container(
+            height: 100,
+            width: _imageRadius,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(_imageRadius),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(_image),
+              ),
+            ),
+            child: InkWell(onTap: () async {
+              File _imageFile =
+                  await MediaService.instance.getImageFromLibrary();
+              setState(() {
+                _image = _imageFile as String;
+              });
+            }),
+          ),
+          Positioned(
+              bottom: 0,
+              right: 0,
+              child: Container(
+                height: 40,
+                width: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    width: 4,
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                  ),
+                  color: Colors.blue,
+                ),
+                child: Icon(
+                  Icons.edit,
+                  color: Colors.white,
+                ),
+              )),
+        ],
       ),
     );
   }
@@ -168,7 +225,7 @@ class _MyAccount extends State<MyAccount> {
 
   Widget _button() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         MaterialButton(
           shape: StadiumBorder(),
@@ -185,9 +242,8 @@ class _MyAccount extends State<MyAccount> {
           color: Colors.blue,
           child: new Text("SAVE"),
           onPressed: () {
-            submitAction(
-              context
-            );
+            submitAction_name(context);
+            submitAction_image(context);
             Navigator.of(context).pop();
           },
         ),
@@ -195,44 +251,13 @@ class _MyAccount extends State<MyAccount> {
     );
   }
 
-  Widget buildTextField(
-      String labelText, String placeholder, bool isPasswordTextField) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: TextField(
-        obscureText: isPasswordTextField ? showPassword : false,
-        decoration: InputDecoration(
-            suffixIcon: isPasswordTextField
-                ? IconButton(
-                    onPressed: () {
-                      setState(() {
-                        showPassword = !showPassword;
-                      });
-                    },
-                    icon: Icon(
-                      Icons.remove_red_eye,
-                      color: Colors.grey,
-                    ),
-                  )
-                : null,
-            contentPadding: EdgeInsets.only(bottom: 3),
-            labelText: labelText,
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: placeholder,
-            hintStyle: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            )),
-      ),
-    );
+  submitAction_name(BuildContext context) {
+    updateData_name(_nameController.text);
+    _nameController.clear();
   }
 
-  submitAction(BuildContext context) {
-    updateData(_nameController.text,_imageController.text);
-    _nameController.clear();
+  submitAction_image(BuildContext context) {
+    updateData_name(_imageController.text);
     _imageController.clear();
-
-
   }
 }
