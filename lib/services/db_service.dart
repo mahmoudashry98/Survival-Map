@@ -45,6 +45,11 @@ class DBService {
     }
   }
 
+  Future updateUserList(String _uid,String _name,String _imageURL) async{
+    return await _db.collection(_userCollection).document(_uid).updateData({"name": _name, "image": _imageURL,});
+
+  }
+
 
 
   Future<void> updateUserLastSeenTime(String _userID) {

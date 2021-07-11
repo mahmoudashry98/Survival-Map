@@ -318,7 +318,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             style: TextStyle(color: Colors.black),
             validator: (_input) {
               if (_input.isEmpty) {
-                return 'Password cannot be empty';
+                return 'Re-password cannot be empty';
               } else if (password.text != _confirmPassword.text) {
                 return 'Password do not match!';
               }

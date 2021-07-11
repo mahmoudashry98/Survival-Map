@@ -11,4 +11,5 @@ loading(context) => showDialog(
           valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
         ),
       ),
-    ));
+    ),
+);

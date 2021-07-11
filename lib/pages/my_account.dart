@@ -1,6 +1,7 @@
 import 'package:chatify/models/contact.dart';
 import 'package:chatify/providers/auth_provider.dart';
 import 'package:chatify/services/db_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -11,12 +12,49 @@ class MyAccount extends StatefulWidget {
 }
 
 class _MyAccount extends State<MyAccount> {
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _imageController = TextEditingController();
+
+
+
+
+
   bool showPassword = false;
 
+  List userProfileList = [];
+
+  String userID ="";
+
+  String _searchText;
   AuthProvider _auth;
   double _deviceHeight;
   double _deviceWidht;
 
+
+
+
+  void initState(){
+    super.initState();
+    fetchUserInfo();
+  }
+  fetchDatabaseList()async{
+    dynamic resultant =await DBService.instance.getUsersInDB(_searchText);
+    if (resultant == null){
+      print("Unable to retrive");
+      setState(() {
+        userProfileList =resultant;
+      });
+    }
+  }
+  fetchUserInfo() async{
+    FirebaseUser getUser = await FirebaseAuth.instance.currentUser();
+    userID =getUser.uid;
+  }
+
+  updateData(String _name, String _imageURL) async{
+    await DBService.instance.updateUserList(userID, _name, _imageURL);
+    fetchDatabaseList();
+  }
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
@@ -74,13 +112,13 @@ class _MyAccount extends State<MyAccount> {
                                       ),
                                   _userImageWidget(_userData.image),
                                   _userNameWidget(_userData.name),
-                                  buildTextField(
-                                      "Full Name", _userData.name, false),
+                                  TextField(
+                                    controller: _nameController,
+                                    decoration: InputDecoration(hintText: 'Name'),
+                                  ),
                                   buildTextField(
                                       "E-mail", _userData.email, false),
-                                  buildTextField("Password", "********", true),
-                                  buildTextField("NewPassword", "********", true),
-                                  buildTextField("Repeat Password", "********", true),
+
                                   SizedBox(
                                     width: _deviceWidht,
                                   ),
@@ -147,6 +185,9 @@ class _MyAccount extends State<MyAccount> {
           color: Colors.blue,
           child: new Text("SAVE"),
           onPressed: () {
+            submitAction(
+              context
+            );
             Navigator.of(context).pop();
           },
         ),
@@ -185,5 +226,13 @@ class _MyAccount extends State<MyAccount> {
             )),
       ),
     );
+  }
+
+  submitAction(BuildContext context) {
+    updateData(_nameController.text,_imageController.text);
+    _nameController.clear();
+    _imageController.clear();
+
+
   }
 }

@@ -87,6 +87,7 @@ class _MyAppState extends State<MyApp> {
           initialRoute: "login",
           routes: {
             "login": (BuildContext _context) => LoginPage(),
+            // "forgotPassword": (BuildContext _context) => LoginPage(),
             "register": (BuildContext _context) => RegistrationPage(),
             "home": (BuildContext _context) => HomePage(),
             "MyAccount": (BuildContext _context) => MyAccount(),
