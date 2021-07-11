@@ -54,10 +54,6 @@ class _MyAccount extends State<MyAccount> {
     fetchDatabaseList();
   }
 
-  updateData_image(String _image) async {
-    await DBService.instance.updateUserList_name(userID, _image);
-    fetchDatabaseList();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -255,8 +251,5 @@ class _MyAccount extends State<MyAccount> {
     _nameController.clear();
   }
 
-  submitAction_image(BuildContext context) {
-    updateData_name(_imageController.text);
-    _imageController.clear();
-  }
+
 }
