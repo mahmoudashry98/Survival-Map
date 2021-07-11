@@ -243,7 +243,6 @@ class _MyAccount extends State<MyAccount> {
           child: new Text("SAVE"),
           onPressed: () {
             submitAction_name(context);
-            submitAction_image(context);
             Navigator.of(context).pop();
           },
         ),
