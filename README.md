@@ -1,4 +1,4 @@
-# chatify
+# Survival_Map
 
 A new Flutter application.
 
